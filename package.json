@@ -1,0 +1,18 @@
+{
+  "name": "production-quality-analysis",
+  "version": "1.0.0",
+  "private": true,
+  "description": "生产质量分析页面：工单-报工-检验-返工/报废全链路追溯，FPY/最终良率/质量成本",
+  "type": "module",
+  "scripts": {
+    "generate": "node tools/generate-sample.mjs",
+    "test": "node --test tests/metrics.test.js tests/dom.smoke.test.cjs tests/svg.geometry.test.cjs",
+    "test:metrics": "node --test tests/metrics.test.js",
+    "test:dom": "node --test tests/dom.smoke.test.cjs",
+    "test:svg": "node --test tests/svg.geometry.test.cjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>生产质量分析 · 一次通过率 / 最终良率 / 返工成本</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <div>
+        <h1>生产质量分析</h1>
+        <p class="subtitle">
+          工单 · 工序报工 · 检验结果 · 返工与报废全链路追溯
+          <span id="dataset-meta"></span>
+        </p>
+      </div>
+      <div class="header-actions">
+        <button class="btn" id="theme-toggle" type="button" aria-label="切换明暗主题">🌙 暗色</button>
+      </div>
+    </header>
+
+    <!-- 全局过滤栏：一个切片驱动下方所有视图 -->
+    <section class="filter-bar" aria-label="筛选条件">
+      <div class="filter-group">
+        <label for="f-product">产品</label>
+        <select id="f-product"><option value="ALL">全部产品</option></select>
+      </div>
+      <div class="filter-group">
+        <label for="f-line">产线</label>
+        <select id="f-line"><option value="ALL">全部产线</option></select>
+      </div>
+      <div class="filter-group">
+        <label for="f-shift">班次</label>
+        <select id="f-shift"><option value="ALL">全部班次</option></select>
+      </div>
+      <div class="filter-group">
+        <label for="f-from">起始日期</label>
+        <input type="date" id="f-from">
+      </div>
+      <div class="filter-group">
+        <label for="f-to">截止日期</label>
+        <input type="date" id="f-to">
+      </div>
+      <div class="filter-spacer"></div>
+      <div class="filter-group">
+        <button class="btn" id="f-reset" type="button">重置筛选</button>
+      </div>
+    </section>
+
+    <!-- KPI 行 -->
+    <section class="kpi-row" id="kpi-row" aria-label="关键指标"></section>
+
+    <!-- 缺陷分布 + 工序缺陷分布 -->
+    <section class="grid-2">
+      <div class="card">
+        <div class="card-head">
+          <h2 class="card-title">缺陷类型分布</h2>
+          <div class="view-toggle" data-view-key="defect">
+            <button class="btn active" type="button" data-mode="chart">图表</button>
+            <button class="btn" type="button" data-mode="table">表格</button>
+          </div>
+        </div>
+        <p class="card-sub">按首检失败事件计数；同一序列号复检失败不重复计入</p>
+        <div id="defect-chart" class="chart-wrap" aria-live="polite"></div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <h2 class="card-title">缺陷出现的工序</h2>
+          <div class="view-toggle" data-view-key="opdefect">
+            <button class="btn active" type="button" data-mode="chart">图表</button>
+            <button class="btn" type="button" data-mode="table">表格</button>
+          </div>
+        </div>
+        <p class="card-sub">按工单绑定的历史路线工序归集；工序顺序以生产当时版本为准</p>
+        <div id="opdefect-chart" class="chart-wrap" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- 班次对比 -->
+    <section class="grid-2">
+      <div class="card">
+        <div class="card-head">
+          <h2 class="card-title">班次对比 · 一次通过率与最终良率</h2>
+          <div class="view-toggle" data-view-key="shiftrate">
+            <button class="btn active" type="button" data-mode="chart">图表</button>
+            <button class="btn" type="button" data-mode="table">表格</button>
+          </div>
+        </div>
+        <p class="card-sub">仅统计可评估序列号；追踪不完整的单元已从分母剔除</p>
+        <div id="shift-rate-chart" class="chart-wrap" aria-live="polite"></div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <h2 class="card-title">班次对比 · 返工与报废成本</h2>
+          <div class="view-toggle" data-view-key="shiftcost">
+            <button class="btn active" type="button" data-mode="chart">图表</button>
+            <button class="btn" type="button" data-mode="table">表格</button>
+          </div>
+        </div>
+        <p class="card-sub">两类成本分别归集；先返工后报废的序列号两笔成本各自保留</p>
+        <div id="shift-cost-chart" class="chart-wrap" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- 批次明细 -->
+    <section class="card" style="margin-bottom: 20px;">
+      <div class="card-head">
+        <h2 class="card-title">批次明细</h2>
+        <div class="view-toggle" data-view-key="batch">
+          <button class="btn active" type="button" data-mode="chart">卡片视图</button>
+          <button class="btn" type="button" data-mode="table">表格视图</button>
+        </div>
+      </div>
+      <p class="card-sub">
+        展开批次查看缺陷出现的工序、返工后复检结论与缺失记录；点击序列号查看单件全流程追溯
+      </p>
+      <div class="table-scroll">
+        <table class="batch-table" id="batch-table">
+          <thead>
+            <tr>
+              <th style="width:34px;"></th>
+              <th>批次 / 工单</th>
+              <th>产品</th>
+              <th>产线</th>
+              <th>班次</th>
+              <th>路线版本</th>
+              <th class="num">产量(去重)</th>
+              <th class="num">一次通过率</th>
+              <th class="num">最终良率</th>
+              <th class="num">返工成本</th>
+              <th class="num">报废成本</th>
+              <th>追踪状态</th>
+            </tr>
+          </thead>
+          <tbody id="batch-tbody"></tbody>
+        </table>
+      </div>
+      <div id="batch-table-view" class="table-scroll" hidden></div>
+    </section>
+
+    <!-- 口径说明 -->
+    <section class="methodology">
+      <h2>统计口径与追溯说明</h2>
+      <ul>
+        <li><strong>产量去重</strong>：以序列号花名册 <code>units</code> 为唯一锚点，同一产品多次复检只计一件产量，复检不产生新序列号。</li>
+        <li><strong>一次通过率（FPY）</strong>：可评估序列号中，所有检验点首检即合格的占比；分母剔除追踪不完整单元。</li>
+        <li><strong>最终良率</strong>：可评估序列号中最终状态为合格的占比（返工后复检通过计入合格，报废不计入）。</li>
+        <li><strong>成本分离</strong>：返工成本 = 返工工时费 + 辅料费；报废成本 = 主料损失 + 已投入工序加工费。先返工后报废时两笔成本各自保留、分别汇总。</li>
+        <li><strong>追踪不完整</strong>：序列号缺失应到工序的报工/检验记录，或返工尚未关闭（无复检结论）时标记，并从 FPY/良率分母剔除。</li>
+        <li><strong>历史路线快照</strong>：工单创建时绑定 <code>routeId</code> 版本，旧批次始终按当时路线解释（如 RT-A-v1 无 OP15/OP50），不套用新工序顺序重算。</li>
+        <li><strong>本地样例</strong>：数据由 <code>tools/generate-sample.mjs</code> 生成并通过引用完整性审计；机器可读孪生数据见 <code>data/sample-data.json</code>，所有指标由 <code>js/metrics.js</code> 纯函数计算并由 <code>tests/metrics.test.js</code> 锁定。</li>
+      </ul>
+    </section>
+  </div>
+
+  <!-- 单件追溯抽屉 -->
+  <button class="drawer-backdrop" id="drawer-backdrop" aria-label="关闭追溯面板" hidden></button>
+  <aside class="drawer" id="drawer" aria-hidden="true" aria-label="单件追溯">
+    <div class="drawer-head">
+      <div>
+        <h2 id="drawer-title">单件追溯</h2>
+        <div class="meta" id="drawer-meta"></div>
+      </div>
+      <button class="drawer-close" id="drawer-close" type="button" aria-label="关闭">✕</button>
+    </div>
+    <div class="drawer-body" id="drawer-body"></div>
+  </aside>
+
+  <script src="js/sample-data.js"></script>
+  <script src="js/metrics.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

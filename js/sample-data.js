@@ -1,0 +1,4932 @@
+/* 本文件由 tools/generate-sample.mjs 自动生成，请勿手改。机器可读孪生数据见 data/sample-data.json */
+window.QA_SAMPLE = {
+  "meta": {
+    "dataset": "production-quality-sample",
+    "version": "1.0.0",
+    "generatedAt": "2026-11-13T04:06:11.254Z",
+    "currency": "CNY",
+    "timezone": "+08:00",
+    "description": "本地可追溯样例：工单-工序报工-检验-返工/复检-报废全链路；产量按序列号去重；成本字段显式落库；批次绑定历史路线版本。"
+  },
+  "products": [
+    {
+      "id": "P-A",
+      "name": "精密伺服电机 SV-200",
+      "sku": "SV-200"
+    },
+    {
+      "id": "P-B",
+      "name": "工业控制板 CB-88",
+      "sku": "CB-88"
+    }
+  ],
+  "lines": [
+    {
+      "id": "L1",
+      "name": "一号总装线",
+      "laborRatePerHour": 65
+    },
+    {
+      "id": "L2",
+      "name": "SMT电子线",
+      "laborRatePerHour": 55
+    }
+  ],
+  "shifts": [
+    {
+      "id": "S1",
+      "name": "早班",
+      "startTime": "06:00",
+      "endTime": "14:00"
+    },
+    {
+      "id": "S2",
+      "name": "中班",
+      "startTime": "14:00",
+      "endTime": "22:00"
+    },
+    {
+      "id": "S3",
+      "name": "夜班",
+      "startTime": "22:00",
+      "endTime": "06:00"
+    }
+  ],
+  "defectTypes": [
+    {
+      "code": "D01",
+      "name": "尺寸超差",
+      "category": "机加工",
+      "reworkMinutes": 20,
+      "materialCost": 10
+    },
+    {
+      "code": "D02",
+      "name": "表面划伤",
+      "category": "外观",
+      "reworkMinutes": 15,
+      "materialCost": 6
+    },
+    {
+      "code": "D03",
+      "name": "装配不良",
+      "category": "装配",
+      "reworkMinutes": 25,
+      "materialCost": 12
+    },
+    {
+      "code": "D04",
+      "name": "焊接虚焊",
+      "category": "焊接",
+      "reworkMinutes": 18,
+      "materialCost": 8
+    },
+    {
+      "code": "D05",
+      "name": "电气参数异常",
+      "category": "电气",
+      "reworkMinutes": 30,
+      "materialCost": 15
+    },
+    {
+      "code": "D06",
+      "name": "密封失效",
+      "category": "装配",
+      "reworkMinutes": 40,
+      "materialCost": 35
+    },
+    {
+      "code": "D07",
+      "name": "老化性能衰减",
+      "category": "老化",
+      "reworkMinutes": 50,
+      "materialCost": 40
+    }
+  ],
+  "routes": [
+    {
+      "routeId": "RT-A-v1",
+      "productId": "P-A",
+      "version": "v1",
+      "validFrom": "2026-10-01T00:00:00+08:00",
+      "validTo": "2026-10-31T23:59:59+08:00",
+      "changeNote": "初版路线：冲压 → 机加工 → 装配(检) → 终检(检)。",
+      "operations": [
+        {
+          "opId": "OP10",
+          "seq": 10,
+          "name": "冲压",
+          "inspectionPoint": false,
+          "standardCost": 18
+        },
+        {
+          "opId": "OP20",
+          "seq": 20,
+          "name": "机加工",
+          "inspectionPoint": false,
+          "standardCost": 26
+        },
+        {
+          "opId": "OP30",
+          "seq": 30,
+          "name": "装配",
+          "inspectionPoint": true,
+          "standardCost": 20
+        },
+        {
+          "opId": "OP40",
+          "seq": 40,
+          "name": "终检",
+          "inspectionPoint": true,
+          "standardCost": 15
+        }
+      ]
+    },
+    {
+      "routeId": "RT-A-v2",
+      "productId": "P-A",
+      "version": "v2",
+      "validFrom": "2026-11-01T00:00:00+08:00",
+      "validTo": null,
+      "changeNote": "v2 变更：OP10 与 OP20 之间新增 OP15 CNC精加工；末段新增 OP50 老化测试(检)。历史批次仍按 v1 解释。",
+      "operations": [
+        {
+          "opId": "OP10",
+          "seq": 10,
+          "name": "冲压",
+          "inspectionPoint": false,
+          "standardCost": 18
+        },
+        {
+          "opId": "OP15",
+          "seq": 15,
+          "name": "CNC精加工",
+          "inspectionPoint": false,
+          "standardCost": 22
+        },
+        {
+          "opId": "OP20",
+          "seq": 20,
+          "name": "机加工",
+          "inspectionPoint": false,
+          "standardCost": 26
+        },
+        {
+          "opId": "OP30",
+          "seq": 30,
+          "name": "装配",
+          "inspectionPoint": true,
+          "standardCost": 20
+        },
+        {
+          "opId": "OP40",
+          "seq": 40,
+          "name": "终检",
+          "inspectionPoint": true,
+          "standardCost": 15
+        },
+        {
+          "opId": "OP50",
+          "seq": 50,
+          "name": "老化测试",
+          "inspectionPoint": true,
+          "standardCost": 12
+        }
+      ]
+    },
+    {
+      "routeId": "RT-B-v1",
+      "productId": "P-B",
+      "version": "v1",
+      "validFrom": "2026-10-01T00:00:00+08:00",
+      "validTo": null,
+      "changeNote": "初版路线：SMT贴片(检) → 回流焊 → 功能测试(检) → 包装。",
+      "operations": [
+        {
+          "opId": "OP10",
+          "seq": 10,
+          "name": "SMT贴片",
+          "inspectionPoint": true,
+          "standardCost": 24
+        },
+        {
+          "opId": "OP20",
+          "seq": 20,
+          "name": "回流焊",
+          "inspectionPoint": false,
+          "standardCost": 16
+        },
+        {
+          "opId": "OP30",
+          "seq": 30,
+          "name": "功能测试",
+          "inspectionPoint": true,
+          "standardCost": 20
+        },
+        {
+          "opId": "OP40",
+          "seq": 40,
+          "name": "包装",
+          "inspectionPoint": false,
+          "standardCost": 8
+        }
+      ]
+    }
+  ],
+  "workOrders": [
+    {
+      "id": "WO-1028-A-01",
+      "batchId": "B-1028-A-01",
+      "productId": "P-A",
+      "lineId": "L1",
+      "shiftId": "S1",
+      "routeId": "RT-A-v1",
+      "plannedQty": 10,
+      "createdAt": "2026-10-28T06:00:00+08:00",
+      "closedAt": "2026-10-28T13:30:00+08:00",
+      "note": "多次复检去重、返工后报废、返工后通过三种形态齐全"
+    },
+    {
+      "id": "WO-1029-A-02",
+      "batchId": "B-1029-A-02",
+      "productId": "P-A",
+      "lineId": "L1",
+      "shiftId": "S3",
+      "routeId": "RT-A-v1",
+      "plannedQty": 10,
+      "createdAt": "2026-10-29T22:00:00+08:00",
+      "closedAt": "2026-10-30T05:30:00+08:00",
+      "note": "追踪不完整：U08-U10 缺失 OP40 报工与终检记录"
+    },
+    {
+      "id": "WO-1030-A-03",
+      "batchId": "B-1030-A-03",
+      "productId": "P-A",
+      "lineId": "L1",
+      "shiftId": "S2",
+      "routeId": "RT-A-v1",
+      "plannedQty": 10,
+      "createdAt": "2026-10-30T14:00:00+08:00",
+      "closedAt": "2026-10-30T21:30:00+08:00",
+      "note": "直接报废与返工后报废并存"
+    },
+    {
+      "id": "WO-1030-B-04",
+      "batchId": "B-1030-B-04",
+      "productId": "P-B",
+      "lineId": "L2",
+      "shiftId": "S1",
+      "routeId": "RT-B-v1",
+      "plannedQty": 12,
+      "createdAt": "2026-10-30T06:00:00+08:00",
+      "closedAt": "2026-10-30T13:30:00+08:00",
+      "note": "同一序列号在两道工序分别返工，均复检通过"
+    },
+    {
+      "id": "WO-1031-B-05",
+      "batchId": "B-1031-B-05",
+      "productId": "P-B",
+      "lineId": "L2",
+      "shiftId": "S3",
+      "routeId": "RT-B-v1",
+      "plannedQty": 12,
+      "createdAt": "2026-10-31T22:00:00+08:00",
+      "closedAt": null,
+      "note": "夜班高缺陷：报废 2、返工未关闭 1，工单未关闭"
+    },
+    {
+      "id": "WO-1101-A-06",
+      "batchId": "B-1101-A-06",
+      "productId": "P-A",
+      "lineId": "L1",
+      "shiftId": "S1",
+      "routeId": "RT-A-v2",
+      "plannedQty": 10,
+      "createdAt": "2026-11-01T06:00:00+08:00",
+      "closedAt": "2026-11-01T13:30:00+08:00",
+      "note": "v2 新路线首单：OP50 老化测试出现新缺陷 D07"
+    },
+    {
+      "id": "WO-1102-A-07",
+      "batchId": "B-1102-A-07",
+      "productId": "P-A",
+      "lineId": "L1",
+      "shiftId": "S3",
+      "routeId": "RT-A-v2",
+      "plannedQty": 10,
+      "createdAt": "2026-11-02T22:00:00+08:00",
+      "closedAt": "2026-11-03T05:30:00+08:00",
+      "note": "追踪不完整：U08-U10 缺失 v2 新增工序 OP15 的报工"
+    },
+    {
+      "id": "WO-1103-B-08",
+      "batchId": "B-1103-B-08",
+      "productId": "P-B",
+      "lineId": "L2",
+      "shiftId": "S2",
+      "routeId": "RT-B-v1",
+      "plannedQty": 12,
+      "createdAt": "2026-11-03T14:00:00+08:00",
+      "closedAt": "2026-11-03T21:30:00+08:00",
+      "note": "中班低缺陷基线"
+    },
+    {
+      "id": "WO-1104-A-09",
+      "batchId": "B-1104-A-09",
+      "productId": "P-A",
+      "lineId": "L1",
+      "shiftId": "S2",
+      "routeId": "RT-A-v2",
+      "plannedQty": 10,
+      "createdAt": "2026-11-04T14:00:00+08:00",
+      "closedAt": "2026-11-04T21:30:00+08:00",
+      "note": "v2 路线稳定批次，仅 1 次外观返工"
+    }
+  ],
+  "units": [
+    {
+      "serialId": "B-1028-A-01-U01",
+      "batchId": "B-1028-A-01",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1028-A-01-U02",
+      "batchId": "B-1028-A-01",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1028-A-01-U03",
+      "batchId": "B-1028-A-01",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1028-A-01-U04",
+      "batchId": "B-1028-A-01",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1028-A-01-U05",
+      "batchId": "B-1028-A-01",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1028-A-01-U06",
+      "batchId": "B-1028-A-01",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1028-A-01-U07",
+      "batchId": "B-1028-A-01",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1028-A-01-U08",
+      "batchId": "B-1028-A-01",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1028-A-01-U09",
+      "batchId": "B-1028-A-01",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1028-A-01-U10",
+      "batchId": "B-1028-A-01",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1029-A-02-U01",
+      "batchId": "B-1029-A-02",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1029-A-02-U02",
+      "batchId": "B-1029-A-02",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1029-A-02-U03",
+      "batchId": "B-1029-A-02",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1029-A-02-U04",
+      "batchId": "B-1029-A-02",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1029-A-02-U05",
+      "batchId": "B-1029-A-02",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1029-A-02-U06",
+      "batchId": "B-1029-A-02",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1029-A-02-U07",
+      "batchId": "B-1029-A-02",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1029-A-02-U08",
+      "batchId": "B-1029-A-02",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1029-A-02-U09",
+      "batchId": "B-1029-A-02",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1029-A-02-U10",
+      "batchId": "B-1029-A-02",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1030-A-03-U01",
+      "batchId": "B-1030-A-03",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1030-A-03-U02",
+      "batchId": "B-1030-A-03",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1030-A-03-U03",
+      "batchId": "B-1030-A-03",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1030-A-03-U04",
+      "batchId": "B-1030-A-03",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1030-A-03-U05",
+      "batchId": "B-1030-A-03",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1030-A-03-U06",
+      "batchId": "B-1030-A-03",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1030-A-03-U07",
+      "batchId": "B-1030-A-03",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1030-A-03-U08",
+      "batchId": "B-1030-A-03",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1030-A-03-U09",
+      "batchId": "B-1030-A-03",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1030-A-03-U10",
+      "batchId": "B-1030-A-03",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1030-B-04-U01",
+      "batchId": "B-1030-B-04",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1030-B-04-U02",
+      "batchId": "B-1030-B-04",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1030-B-04-U03",
+      "batchId": "B-1030-B-04",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1030-B-04-U04",
+      "batchId": "B-1030-B-04",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1030-B-04-U05",
+      "batchId": "B-1030-B-04",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1030-B-04-U06",
+      "batchId": "B-1030-B-04",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1030-B-04-U07",
+      "batchId": "B-1030-B-04",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1030-B-04-U08",
+      "batchId": "B-1030-B-04",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1030-B-04-U09",
+      "batchId": "B-1030-B-04",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1030-B-04-U10",
+      "batchId": "B-1030-B-04",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1030-B-04-U11",
+      "batchId": "B-1030-B-04",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1030-B-04-U12",
+      "batchId": "B-1030-B-04",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1031-B-05-U01",
+      "batchId": "B-1031-B-05",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1031-B-05-U02",
+      "batchId": "B-1031-B-05",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1031-B-05-U03",
+      "batchId": "B-1031-B-05",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1031-B-05-U04",
+      "batchId": "B-1031-B-05",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1031-B-05-U05",
+      "batchId": "B-1031-B-05",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1031-B-05-U06",
+      "batchId": "B-1031-B-05",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1031-B-05-U07",
+      "batchId": "B-1031-B-05",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1031-B-05-U08",
+      "batchId": "B-1031-B-05",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1031-B-05-U09",
+      "batchId": "B-1031-B-05",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1031-B-05-U10",
+      "batchId": "B-1031-B-05",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1031-B-05-U11",
+      "batchId": "B-1031-B-05",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1031-B-05-U12",
+      "batchId": "B-1031-B-05",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1101-A-06-U01",
+      "batchId": "B-1101-A-06",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1101-A-06-U02",
+      "batchId": "B-1101-A-06",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1101-A-06-U03",
+      "batchId": "B-1101-A-06",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1101-A-06-U04",
+      "batchId": "B-1101-A-06",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1101-A-06-U05",
+      "batchId": "B-1101-A-06",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1101-A-06-U06",
+      "batchId": "B-1101-A-06",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1101-A-06-U07",
+      "batchId": "B-1101-A-06",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1101-A-06-U08",
+      "batchId": "B-1101-A-06",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1101-A-06-U09",
+      "batchId": "B-1101-A-06",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1101-A-06-U10",
+      "batchId": "B-1101-A-06",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1102-A-07-U01",
+      "batchId": "B-1102-A-07",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1102-A-07-U02",
+      "batchId": "B-1102-A-07",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1102-A-07-U03",
+      "batchId": "B-1102-A-07",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1102-A-07-U04",
+      "batchId": "B-1102-A-07",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1102-A-07-U05",
+      "batchId": "B-1102-A-07",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1102-A-07-U06",
+      "batchId": "B-1102-A-07",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1102-A-07-U07",
+      "batchId": "B-1102-A-07",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1102-A-07-U08",
+      "batchId": "B-1102-A-07",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1102-A-07-U09",
+      "batchId": "B-1102-A-07",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1102-A-07-U10",
+      "batchId": "B-1102-A-07",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1103-B-08-U01",
+      "batchId": "B-1103-B-08",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1103-B-08-U02",
+      "batchId": "B-1103-B-08",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1103-B-08-U03",
+      "batchId": "B-1103-B-08",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1103-B-08-U04",
+      "batchId": "B-1103-B-08",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1103-B-08-U05",
+      "batchId": "B-1103-B-08",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1103-B-08-U06",
+      "batchId": "B-1103-B-08",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1103-B-08-U07",
+      "batchId": "B-1103-B-08",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1103-B-08-U08",
+      "batchId": "B-1103-B-08",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1103-B-08-U09",
+      "batchId": "B-1103-B-08",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1103-B-08-U10",
+      "batchId": "B-1103-B-08",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1103-B-08-U11",
+      "batchId": "B-1103-B-08",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1103-B-08-U12",
+      "batchId": "B-1103-B-08",
+      "productId": "P-B"
+    },
+    {
+      "serialId": "B-1104-A-09-U01",
+      "batchId": "B-1104-A-09",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1104-A-09-U02",
+      "batchId": "B-1104-A-09",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1104-A-09-U03",
+      "batchId": "B-1104-A-09",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1104-A-09-U04",
+      "batchId": "B-1104-A-09",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1104-A-09-U05",
+      "batchId": "B-1104-A-09",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1104-A-09-U06",
+      "batchId": "B-1104-A-09",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1104-A-09-U07",
+      "batchId": "B-1104-A-09",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1104-A-09-U08",
+      "batchId": "B-1104-A-09",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1104-A-09-U09",
+      "batchId": "B-1104-A-09",
+      "productId": "P-A"
+    },
+    {
+      "serialId": "B-1104-A-09-U10",
+      "batchId": "B-1104-A-09",
+      "productId": "P-A"
+    }
+  ],
+  "operationReports": [
+    {
+      "id": "OPR-B-1028-A-01-OP10",
+      "batchId": "B-1028-A-01",
+      "opId": "OP10",
+      "serialIds": [
+        "B-1028-A-01-U01",
+        "B-1028-A-01-U02",
+        "B-1028-A-01-U03",
+        "B-1028-A-01-U04",
+        "B-1028-A-01-U05",
+        "B-1028-A-01-U06",
+        "B-1028-A-01-U07",
+        "B-1028-A-01-U08",
+        "B-1028-A-01-U09",
+        "B-1028-A-01-U10"
+      ],
+      "reportedAt": "2026-10-28T06:30:00+08:00"
+    },
+    {
+      "id": "OPR-B-1028-A-01-OP20",
+      "batchId": "B-1028-A-01",
+      "opId": "OP20",
+      "serialIds": [
+        "B-1028-A-01-U01",
+        "B-1028-A-01-U02",
+        "B-1028-A-01-U03",
+        "B-1028-A-01-U04",
+        "B-1028-A-01-U05",
+        "B-1028-A-01-U06",
+        "B-1028-A-01-U07",
+        "B-1028-A-01-U08",
+        "B-1028-A-01-U09",
+        "B-1028-A-01-U10"
+      ],
+      "reportedAt": "2026-10-28T07:00:00+08:00"
+    },
+    {
+      "id": "OPR-B-1028-A-01-OP30",
+      "batchId": "B-1028-A-01",
+      "opId": "OP30",
+      "serialIds": [
+        "B-1028-A-01-U01",
+        "B-1028-A-01-U02",
+        "B-1028-A-01-U03",
+        "B-1028-A-01-U04",
+        "B-1028-A-01-U05",
+        "B-1028-A-01-U06",
+        "B-1028-A-01-U07",
+        "B-1028-A-01-U08",
+        "B-1028-A-01-U09",
+        "B-1028-A-01-U10"
+      ],
+      "reportedAt": "2026-10-28T07:30:00+08:00"
+    },
+    {
+      "id": "OPR-B-1028-A-01-OP40",
+      "batchId": "B-1028-A-01",
+      "opId": "OP40",
+      "serialIds": [
+        "B-1028-A-01-U01",
+        "B-1028-A-01-U02",
+        "B-1028-A-01-U03",
+        "B-1028-A-01-U04",
+        "B-1028-A-01-U05",
+        "B-1028-A-01-U06",
+        "B-1028-A-01-U07",
+        "B-1028-A-01-U08",
+        "B-1028-A-01-U09",
+        "B-1028-A-01-U10"
+      ],
+      "reportedAt": "2026-10-28T08:00:00+08:00"
+    },
+    {
+      "id": "OPR-B-1029-A-02-OP10",
+      "batchId": "B-1029-A-02",
+      "opId": "OP10",
+      "serialIds": [
+        "B-1029-A-02-U01",
+        "B-1029-A-02-U02",
+        "B-1029-A-02-U03",
+        "B-1029-A-02-U04",
+        "B-1029-A-02-U05",
+        "B-1029-A-02-U06",
+        "B-1029-A-02-U07",
+        "B-1029-A-02-U08",
+        "B-1029-A-02-U09",
+        "B-1029-A-02-U10"
+      ],
+      "reportedAt": "2026-10-29T22:30:00+08:00"
+    },
+    {
+      "id": "OPR-B-1029-A-02-OP20",
+      "batchId": "B-1029-A-02",
+      "opId": "OP20",
+      "serialIds": [
+        "B-1029-A-02-U01",
+        "B-1029-A-02-U02",
+        "B-1029-A-02-U03",
+        "B-1029-A-02-U04",
+        "B-1029-A-02-U05",
+        "B-1029-A-02-U06",
+        "B-1029-A-02-U07",
+        "B-1029-A-02-U08",
+        "B-1029-A-02-U09",
+        "B-1029-A-02-U10"
+      ],
+      "reportedAt": "2026-10-29T23:00:00+08:00"
+    },
+    {
+      "id": "OPR-B-1029-A-02-OP30",
+      "batchId": "B-1029-A-02",
+      "opId": "OP30",
+      "serialIds": [
+        "B-1029-A-02-U01",
+        "B-1029-A-02-U02",
+        "B-1029-A-02-U03",
+        "B-1029-A-02-U04",
+        "B-1029-A-02-U05",
+        "B-1029-A-02-U06",
+        "B-1029-A-02-U07",
+        "B-1029-A-02-U08",
+        "B-1029-A-02-U09",
+        "B-1029-A-02-U10"
+      ],
+      "reportedAt": "2026-10-29T23:30:00+08:00"
+    },
+    {
+      "id": "OPR-B-1029-A-02-OP40",
+      "batchId": "B-1029-A-02",
+      "opId": "OP40",
+      "serialIds": [
+        "B-1029-A-02-U01",
+        "B-1029-A-02-U02",
+        "B-1029-A-02-U03",
+        "B-1029-A-02-U04",
+        "B-1029-A-02-U05",
+        "B-1029-A-02-U06",
+        "B-1029-A-02-U07"
+      ],
+      "reportedAt": "2026-10-30T00:00:00+08:00"
+    },
+    {
+      "id": "OPR-B-1030-A-03-OP10",
+      "batchId": "B-1030-A-03",
+      "opId": "OP10",
+      "serialIds": [
+        "B-1030-A-03-U01",
+        "B-1030-A-03-U02",
+        "B-1030-A-03-U03",
+        "B-1030-A-03-U04",
+        "B-1030-A-03-U05",
+        "B-1030-A-03-U06",
+        "B-1030-A-03-U07",
+        "B-1030-A-03-U08",
+        "B-1030-A-03-U09",
+        "B-1030-A-03-U10"
+      ],
+      "reportedAt": "2026-10-30T14:30:00+08:00"
+    },
+    {
+      "id": "OPR-B-1030-A-03-OP20",
+      "batchId": "B-1030-A-03",
+      "opId": "OP20",
+      "serialIds": [
+        "B-1030-A-03-U01",
+        "B-1030-A-03-U02",
+        "B-1030-A-03-U03",
+        "B-1030-A-03-U04",
+        "B-1030-A-03-U05",
+        "B-1030-A-03-U06",
+        "B-1030-A-03-U07",
+        "B-1030-A-03-U08",
+        "B-1030-A-03-U09",
+        "B-1030-A-03-U10"
+      ],
+      "reportedAt": "2026-10-30T15:00:00+08:00"
+    },
+    {
+      "id": "OPR-B-1030-A-03-OP30",
+      "batchId": "B-1030-A-03",
+      "opId": "OP30",
+      "serialIds": [
+        "B-1030-A-03-U01",
+        "B-1030-A-03-U02",
+        "B-1030-A-03-U03",
+        "B-1030-A-03-U04",
+        "B-1030-A-03-U05",
+        "B-1030-A-03-U06",
+        "B-1030-A-03-U07",
+        "B-1030-A-03-U08",
+        "B-1030-A-03-U09",
+        "B-1030-A-03-U10"
+      ],
+      "reportedAt": "2026-10-30T15:30:00+08:00"
+    },
+    {
+      "id": "OPR-B-1030-A-03-OP40",
+      "batchId": "B-1030-A-03",
+      "opId": "OP40",
+      "serialIds": [
+        "B-1030-A-03-U01",
+        "B-1030-A-03-U02",
+        "B-1030-A-03-U04",
+        "B-1030-A-03-U05",
+        "B-1030-A-03-U06",
+        "B-1030-A-03-U07",
+        "B-1030-A-03-U08",
+        "B-1030-A-03-U09",
+        "B-1030-A-03-U10"
+      ],
+      "reportedAt": "2026-10-30T16:00:00+08:00"
+    },
+    {
+      "id": "OPR-B-1030-B-04-OP10",
+      "batchId": "B-1030-B-04",
+      "opId": "OP10",
+      "serialIds": [
+        "B-1030-B-04-U01",
+        "B-1030-B-04-U02",
+        "B-1030-B-04-U03",
+        "B-1030-B-04-U04",
+        "B-1030-B-04-U05",
+        "B-1030-B-04-U06",
+        "B-1030-B-04-U07",
+        "B-1030-B-04-U08",
+        "B-1030-B-04-U09",
+        "B-1030-B-04-U10",
+        "B-1030-B-04-U11",
+        "B-1030-B-04-U12"
+      ],
+      "reportedAt": "2026-10-30T06:30:00+08:00"
+    },
+    {
+      "id": "OPR-B-1030-B-04-OP20",
+      "batchId": "B-1030-B-04",
+      "opId": "OP20",
+      "serialIds": [
+        "B-1030-B-04-U01",
+        "B-1030-B-04-U02",
+        "B-1030-B-04-U03",
+        "B-1030-B-04-U04",
+        "B-1030-B-04-U05",
+        "B-1030-B-04-U06",
+        "B-1030-B-04-U07",
+        "B-1030-B-04-U08",
+        "B-1030-B-04-U09",
+        "B-1030-B-04-U10",
+        "B-1030-B-04-U11",
+        "B-1030-B-04-U12"
+      ],
+      "reportedAt": "2026-10-30T07:00:00+08:00"
+    },
+    {
+      "id": "OPR-B-1030-B-04-OP30",
+      "batchId": "B-1030-B-04",
+      "opId": "OP30",
+      "serialIds": [
+        "B-1030-B-04-U01",
+        "B-1030-B-04-U02",
+        "B-1030-B-04-U03",
+        "B-1030-B-04-U04",
+        "B-1030-B-04-U05",
+        "B-1030-B-04-U06",
+        "B-1030-B-04-U07",
+        "B-1030-B-04-U08",
+        "B-1030-B-04-U09",
+        "B-1030-B-04-U10",
+        "B-1030-B-04-U11",
+        "B-1030-B-04-U12"
+      ],
+      "reportedAt": "2026-10-30T07:30:00+08:00"
+    },
+    {
+      "id": "OPR-B-1030-B-04-OP40",
+      "batchId": "B-1030-B-04",
+      "opId": "OP40",
+      "serialIds": [
+        "B-1030-B-04-U01",
+        "B-1030-B-04-U02",
+        "B-1030-B-04-U03",
+        "B-1030-B-04-U04",
+        "B-1030-B-04-U05",
+        "B-1030-B-04-U06",
+        "B-1030-B-04-U07",
+        "B-1030-B-04-U08",
+        "B-1030-B-04-U09",
+        "B-1030-B-04-U10",
+        "B-1030-B-04-U11",
+        "B-1030-B-04-U12"
+      ],
+      "reportedAt": "2026-10-30T08:00:00+08:00"
+    },
+    {
+      "id": "OPR-B-1031-B-05-OP10",
+      "batchId": "B-1031-B-05",
+      "opId": "OP10",
+      "serialIds": [
+        "B-1031-B-05-U01",
+        "B-1031-B-05-U02",
+        "B-1031-B-05-U03",
+        "B-1031-B-05-U04",
+        "B-1031-B-05-U05",
+        "B-1031-B-05-U06",
+        "B-1031-B-05-U07",
+        "B-1031-B-05-U08",
+        "B-1031-B-05-U09",
+        "B-1031-B-05-U10",
+        "B-1031-B-05-U11",
+        "B-1031-B-05-U12"
+      ],
+      "reportedAt": "2026-10-31T22:30:00+08:00"
+    },
+    {
+      "id": "OPR-B-1031-B-05-OP20",
+      "batchId": "B-1031-B-05",
+      "opId": "OP20",
+      "serialIds": [
+        "B-1031-B-05-U02",
+        "B-1031-B-05-U03",
+        "B-1031-B-05-U04",
+        "B-1031-B-05-U05",
+        "B-1031-B-05-U06",
+        "B-1031-B-05-U07",
+        "B-1031-B-05-U08",
+        "B-1031-B-05-U09",
+        "B-1031-B-05-U10",
+        "B-1031-B-05-U11",
+        "B-1031-B-05-U12"
+      ],
+      "reportedAt": "2026-10-31T23:00:00+08:00"
+    },
+    {
+      "id": "OPR-B-1031-B-05-OP30",
+      "batchId": "B-1031-B-05",
+      "opId": "OP30",
+      "serialIds": [
+        "B-1031-B-05-U02",
+        "B-1031-B-05-U03",
+        "B-1031-B-05-U04",
+        "B-1031-B-05-U05",
+        "B-1031-B-05-U06",
+        "B-1031-B-05-U07",
+        "B-1031-B-05-U08",
+        "B-1031-B-05-U09",
+        "B-1031-B-05-U10",
+        "B-1031-B-05-U11",
+        "B-1031-B-05-U12"
+      ],
+      "reportedAt": "2026-10-31T23:30:00+08:00"
+    },
+    {
+      "id": "OPR-B-1031-B-05-OP40",
+      "batchId": "B-1031-B-05",
+      "opId": "OP40",
+      "serialIds": [
+        "B-1031-B-05-U03",
+        "B-1031-B-05-U05",
+        "B-1031-B-05-U06",
+        "B-1031-B-05-U07",
+        "B-1031-B-05-U08",
+        "B-1031-B-05-U09",
+        "B-1031-B-05-U10",
+        "B-1031-B-05-U11",
+        "B-1031-B-05-U12"
+      ],
+      "reportedAt": "2026-11-01T00:00:00+08:00"
+    },
+    {
+      "id": "OPR-B-1101-A-06-OP10",
+      "batchId": "B-1101-A-06",
+      "opId": "OP10",
+      "serialIds": [
+        "B-1101-A-06-U01",
+        "B-1101-A-06-U02",
+        "B-1101-A-06-U03",
+        "B-1101-A-06-U04",
+        "B-1101-A-06-U05",
+        "B-1101-A-06-U06",
+        "B-1101-A-06-U07",
+        "B-1101-A-06-U08",
+        "B-1101-A-06-U09",
+        "B-1101-A-06-U10"
+      ],
+      "reportedAt": "2026-11-01T06:30:00+08:00"
+    },
+    {
+      "id": "OPR-B-1101-A-06-OP15",
+      "batchId": "B-1101-A-06",
+      "opId": "OP15",
+      "serialIds": [
+        "B-1101-A-06-U01",
+        "B-1101-A-06-U02",
+        "B-1101-A-06-U03",
+        "B-1101-A-06-U04",
+        "B-1101-A-06-U05",
+        "B-1101-A-06-U06",
+        "B-1101-A-06-U07",
+        "B-1101-A-06-U08",
+        "B-1101-A-06-U09",
+        "B-1101-A-06-U10"
+      ],
+      "reportedAt": "2026-11-01T06:45:00+08:00"
+    },
+    {
+      "id": "OPR-B-1101-A-06-OP20",
+      "batchId": "B-1101-A-06",
+      "opId": "OP20",
+      "serialIds": [
+        "B-1101-A-06-U01",
+        "B-1101-A-06-U02",
+        "B-1101-A-06-U03",
+        "B-1101-A-06-U04",
+        "B-1101-A-06-U05",
+        "B-1101-A-06-U06",
+        "B-1101-A-06-U07",
+        "B-1101-A-06-U08",
+        "B-1101-A-06-U09",
+        "B-1101-A-06-U10"
+      ],
+      "reportedAt": "2026-11-01T07:00:00+08:00"
+    },
+    {
+      "id": "OPR-B-1101-A-06-OP30",
+      "batchId": "B-1101-A-06",
+      "opId": "OP30",
+      "serialIds": [
+        "B-1101-A-06-U01",
+        "B-1101-A-06-U02",
+        "B-1101-A-06-U03",
+        "B-1101-A-06-U04",
+        "B-1101-A-06-U05",
+        "B-1101-A-06-U06",
+        "B-1101-A-06-U07",
+        "B-1101-A-06-U08",
+        "B-1101-A-06-U09",
+        "B-1101-A-06-U10"
+      ],
+      "reportedAt": "2026-11-01T07:30:00+08:00"
+    },
+    {
+      "id": "OPR-B-1101-A-06-OP40",
+      "batchId": "B-1101-A-06",
+      "opId": "OP40",
+      "serialIds": [
+        "B-1101-A-06-U01",
+        "B-1101-A-06-U02",
+        "B-1101-A-06-U03",
+        "B-1101-A-06-U04",
+        "B-1101-A-06-U05",
+        "B-1101-A-06-U06",
+        "B-1101-A-06-U07",
+        "B-1101-A-06-U08",
+        "B-1101-A-06-U09",
+        "B-1101-A-06-U10"
+      ],
+      "reportedAt": "2026-11-01T08:00:00+08:00"
+    },
+    {
+      "id": "OPR-B-1101-A-06-OP50",
+      "batchId": "B-1101-A-06",
+      "opId": "OP50",
+      "serialIds": [
+        "B-1101-A-06-U01",
+        "B-1101-A-06-U02",
+        "B-1101-A-06-U03",
+        "B-1101-A-06-U04",
+        "B-1101-A-06-U05",
+        "B-1101-A-06-U06",
+        "B-1101-A-06-U07",
+        "B-1101-A-06-U08",
+        "B-1101-A-06-U09",
+        "B-1101-A-06-U10"
+      ],
+      "reportedAt": "2026-11-01T08:30:00+08:00"
+    },
+    {
+      "id": "OPR-B-1102-A-07-OP10",
+      "batchId": "B-1102-A-07",
+      "opId": "OP10",
+      "serialIds": [
+        "B-1102-A-07-U01",
+        "B-1102-A-07-U02",
+        "B-1102-A-07-U03",
+        "B-1102-A-07-U04",
+        "B-1102-A-07-U05",
+        "B-1102-A-07-U06",
+        "B-1102-A-07-U07",
+        "B-1102-A-07-U08",
+        "B-1102-A-07-U09",
+        "B-1102-A-07-U10"
+      ],
+      "reportedAt": "2026-11-02T22:30:00+08:00"
+    },
+    {
+      "id": "OPR-B-1102-A-07-OP15",
+      "batchId": "B-1102-A-07",
+      "opId": "OP15",
+      "serialIds": [
+        "B-1102-A-07-U01",
+        "B-1102-A-07-U02",
+        "B-1102-A-07-U03",
+        "B-1102-A-07-U04",
+        "B-1102-A-07-U05",
+        "B-1102-A-07-U06",
+        "B-1102-A-07-U07"
+      ],
+      "reportedAt": "2026-11-02T22:45:00+08:00"
+    },
+    {
+      "id": "OPR-B-1102-A-07-OP20",
+      "batchId": "B-1102-A-07",
+      "opId": "OP20",
+      "serialIds": [
+        "B-1102-A-07-U01",
+        "B-1102-A-07-U02",
+        "B-1102-A-07-U03",
+        "B-1102-A-07-U04",
+        "B-1102-A-07-U05",
+        "B-1102-A-07-U06",
+        "B-1102-A-07-U07",
+        "B-1102-A-07-U08",
+        "B-1102-A-07-U09",
+        "B-1102-A-07-U10"
+      ],
+      "reportedAt": "2026-11-02T23:00:00+08:00"
+    },
+    {
+      "id": "OPR-B-1102-A-07-OP30",
+      "batchId": "B-1102-A-07",
+      "opId": "OP30",
+      "serialIds": [
+        "B-1102-A-07-U01",
+        "B-1102-A-07-U02",
+        "B-1102-A-07-U03",
+        "B-1102-A-07-U04",
+        "B-1102-A-07-U05",
+        "B-1102-A-07-U06",
+        "B-1102-A-07-U07",
+        "B-1102-A-07-U08",
+        "B-1102-A-07-U09",
+        "B-1102-A-07-U10"
+      ],
+      "reportedAt": "2026-11-02T23:30:00+08:00"
+    },
+    {
+      "id": "OPR-B-1102-A-07-OP40",
+      "batchId": "B-1102-A-07",
+      "opId": "OP40",
+      "serialIds": [
+        "B-1102-A-07-U01",
+        "B-1102-A-07-U02",
+        "B-1102-A-07-U03",
+        "B-1102-A-07-U04",
+        "B-1102-A-07-U05",
+        "B-1102-A-07-U06",
+        "B-1102-A-07-U07",
+        "B-1102-A-07-U08",
+        "B-1102-A-07-U09",
+        "B-1102-A-07-U10"
+      ],
+      "reportedAt": "2026-11-03T00:00:00+08:00"
+    },
+    {
+      "id": "OPR-B-1102-A-07-OP50",
+      "batchId": "B-1102-A-07",
+      "opId": "OP50",
+      "serialIds": [
+        "B-1102-A-07-U01",
+        "B-1102-A-07-U03",
+        "B-1102-A-07-U04",
+        "B-1102-A-07-U05",
+        "B-1102-A-07-U06",
+        "B-1102-A-07-U07",
+        "B-1102-A-07-U08",
+        "B-1102-A-07-U09",
+        "B-1102-A-07-U10"
+      ],
+      "reportedAt": "2026-11-03T00:30:00+08:00"
+    },
+    {
+      "id": "OPR-B-1103-B-08-OP10",
+      "batchId": "B-1103-B-08",
+      "opId": "OP10",
+      "serialIds": [
+        "B-1103-B-08-U01",
+        "B-1103-B-08-U02",
+        "B-1103-B-08-U03",
+        "B-1103-B-08-U04",
+        "B-1103-B-08-U05",
+        "B-1103-B-08-U06",
+        "B-1103-B-08-U07",
+        "B-1103-B-08-U08",
+        "B-1103-B-08-U09",
+        "B-1103-B-08-U10",
+        "B-1103-B-08-U11",
+        "B-1103-B-08-U12"
+      ],
+      "reportedAt": "2026-11-03T14:30:00+08:00"
+    },
+    {
+      "id": "OPR-B-1103-B-08-OP20",
+      "batchId": "B-1103-B-08",
+      "opId": "OP20",
+      "serialIds": [
+        "B-1103-B-08-U01",
+        "B-1103-B-08-U02",
+        "B-1103-B-08-U03",
+        "B-1103-B-08-U04",
+        "B-1103-B-08-U05",
+        "B-1103-B-08-U06",
+        "B-1103-B-08-U07",
+        "B-1103-B-08-U08",
+        "B-1103-B-08-U09",
+        "B-1103-B-08-U10",
+        "B-1103-B-08-U11",
+        "B-1103-B-08-U12"
+      ],
+      "reportedAt": "2026-11-03T15:00:00+08:00"
+    },
+    {
+      "id": "OPR-B-1103-B-08-OP30",
+      "batchId": "B-1103-B-08",
+      "opId": "OP30",
+      "serialIds": [
+        "B-1103-B-08-U01",
+        "B-1103-B-08-U02",
+        "B-1103-B-08-U03",
+        "B-1103-B-08-U04",
+        "B-1103-B-08-U05",
+        "B-1103-B-08-U06",
+        "B-1103-B-08-U07",
+        "B-1103-B-08-U08",
+        "B-1103-B-08-U09",
+        "B-1103-B-08-U10",
+        "B-1103-B-08-U11",
+        "B-1103-B-08-U12"
+      ],
+      "reportedAt": "2026-11-03T15:30:00+08:00"
+    },
+    {
+      "id": "OPR-B-1103-B-08-OP40",
+      "batchId": "B-1103-B-08",
+      "opId": "OP40",
+      "serialIds": [
+        "B-1103-B-08-U01",
+        "B-1103-B-08-U02",
+        "B-1103-B-08-U03",
+        "B-1103-B-08-U04",
+        "B-1103-B-08-U05",
+        "B-1103-B-08-U06",
+        "B-1103-B-08-U07",
+        "B-1103-B-08-U08",
+        "B-1103-B-08-U09",
+        "B-1103-B-08-U10",
+        "B-1103-B-08-U11",
+        "B-1103-B-08-U12"
+      ],
+      "reportedAt": "2026-11-03T16:00:00+08:00"
+    },
+    {
+      "id": "OPR-B-1104-A-09-OP10",
+      "batchId": "B-1104-A-09",
+      "opId": "OP10",
+      "serialIds": [
+        "B-1104-A-09-U01",
+        "B-1104-A-09-U02",
+        "B-1104-A-09-U03",
+        "B-1104-A-09-U04",
+        "B-1104-A-09-U05",
+        "B-1104-A-09-U06",
+        "B-1104-A-09-U07",
+        "B-1104-A-09-U08",
+        "B-1104-A-09-U09",
+        "B-1104-A-09-U10"
+      ],
+      "reportedAt": "2026-11-04T14:30:00+08:00"
+    },
+    {
+      "id": "OPR-B-1104-A-09-OP15",
+      "batchId": "B-1104-A-09",
+      "opId": "OP15",
+      "serialIds": [
+        "B-1104-A-09-U01",
+        "B-1104-A-09-U02",
+        "B-1104-A-09-U03",
+        "B-1104-A-09-U04",
+        "B-1104-A-09-U05",
+        "B-1104-A-09-U06",
+        "B-1104-A-09-U07",
+        "B-1104-A-09-U08",
+        "B-1104-A-09-U09",
+        "B-1104-A-09-U10"
+      ],
+      "reportedAt": "2026-11-04T14:45:00+08:00"
+    },
+    {
+      "id": "OPR-B-1104-A-09-OP20",
+      "batchId": "B-1104-A-09",
+      "opId": "OP20",
+      "serialIds": [
+        "B-1104-A-09-U01",
+        "B-1104-A-09-U02",
+        "B-1104-A-09-U03",
+        "B-1104-A-09-U04",
+        "B-1104-A-09-U05",
+        "B-1104-A-09-U06",
+        "B-1104-A-09-U07",
+        "B-1104-A-09-U08",
+        "B-1104-A-09-U09",
+        "B-1104-A-09-U10"
+      ],
+      "reportedAt": "2026-11-04T15:00:00+08:00"
+    },
+    {
+      "id": "OPR-B-1104-A-09-OP30",
+      "batchId": "B-1104-A-09",
+      "opId": "OP30",
+      "serialIds": [
+        "B-1104-A-09-U01",
+        "B-1104-A-09-U02",
+        "B-1104-A-09-U03",
+        "B-1104-A-09-U04",
+        "B-1104-A-09-U05",
+        "B-1104-A-09-U06",
+        "B-1104-A-09-U07",
+        "B-1104-A-09-U08",
+        "B-1104-A-09-U09",
+        "B-1104-A-09-U10"
+      ],
+      "reportedAt": "2026-11-04T15:30:00+08:00"
+    },
+    {
+      "id": "OPR-B-1104-A-09-OP40",
+      "batchId": "B-1104-A-09",
+      "opId": "OP40",
+      "serialIds": [
+        "B-1104-A-09-U01",
+        "B-1104-A-09-U02",
+        "B-1104-A-09-U03",
+        "B-1104-A-09-U04",
+        "B-1104-A-09-U05",
+        "B-1104-A-09-U06",
+        "B-1104-A-09-U07",
+        "B-1104-A-09-U08",
+        "B-1104-A-09-U09",
+        "B-1104-A-09-U10"
+      ],
+      "reportedAt": "2026-11-04T16:00:00+08:00"
+    },
+    {
+      "id": "OPR-B-1104-A-09-OP50",
+      "batchId": "B-1104-A-09",
+      "opId": "OP50",
+      "serialIds": [
+        "B-1104-A-09-U01",
+        "B-1104-A-09-U02",
+        "B-1104-A-09-U03",
+        "B-1104-A-09-U04",
+        "B-1104-A-09-U05",
+        "B-1104-A-09-U06",
+        "B-1104-A-09-U07",
+        "B-1104-A-09-U08",
+        "B-1104-A-09-U09",
+        "B-1104-A-09-U10"
+      ],
+      "reportedAt": "2026-11-04T16:30:00+08:00"
+    }
+  ],
+  "inspections": [
+    {
+      "id": "INS-1",
+      "batchId": "B-1028-A-01",
+      "serialId": "B-1028-A-01-U01",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-28T06:14:00+08:00"
+    },
+    {
+      "id": "INS-2",
+      "batchId": "B-1028-A-01",
+      "serialId": "B-1028-A-01-U01",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-28T06:20:00+08:00"
+    },
+    {
+      "id": "INS-3",
+      "batchId": "B-1028-A-01",
+      "serialId": "B-1028-A-01-U02",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "fail",
+      "defectCode": "D03",
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-28T06:16:00+08:00"
+    },
+    {
+      "id": "INS-4",
+      "batchId": "B-1028-A-01",
+      "serialId": "B-1028-A-01-U02",
+      "opId": "OP30",
+      "seqNo": 2,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": "INS-3",
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-28T07:14:00+08:00"
+    },
+    {
+      "id": "INS-5",
+      "batchId": "B-1028-A-01",
+      "serialId": "B-1028-A-01-U02",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-28T07:20:00+08:00"
+    },
+    {
+      "id": "INS-6",
+      "batchId": "B-1028-A-01",
+      "serialId": "B-1028-A-01-U03",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "fail",
+      "defectCode": "D03",
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-28T06:18:00+08:00"
+    },
+    {
+      "id": "INS-7",
+      "batchId": "B-1028-A-01",
+      "serialId": "B-1028-A-01-U03",
+      "opId": "OP30",
+      "seqNo": 2,
+      "result": "fail",
+      "defectCode": "D03",
+      "parentInspectionId": "INS-6",
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-28T07:16:00+08:00"
+    },
+    {
+      "id": "INS-8",
+      "batchId": "B-1028-A-01",
+      "serialId": "B-1028-A-01-U03",
+      "opId": "OP30",
+      "seqNo": 3,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": "INS-6",
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-28T08:14:00+08:00"
+    },
+    {
+      "id": "INS-9",
+      "batchId": "B-1028-A-01",
+      "serialId": "B-1028-A-01-U03",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-28T08:20:00+08:00"
+    },
+    {
+      "id": "INS-10",
+      "batchId": "B-1028-A-01",
+      "serialId": "B-1028-A-01-U04",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-28T06:20:00+08:00"
+    },
+    {
+      "id": "INS-11",
+      "batchId": "B-1028-A-01",
+      "serialId": "B-1028-A-01-U04",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "fail",
+      "defectCode": "D06",
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-28T06:26:00+08:00"
+    },
+    {
+      "id": "INS-12",
+      "batchId": "B-1028-A-01",
+      "serialId": "B-1028-A-01-U04",
+      "opId": "OP40",
+      "seqNo": 2,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": "INS-11",
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-28T07:24:00+08:00"
+    },
+    {
+      "id": "INS-13",
+      "batchId": "B-1028-A-01",
+      "serialId": "B-1028-A-01-U05",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-28T06:22:00+08:00"
+    },
+    {
+      "id": "INS-14",
+      "batchId": "B-1028-A-01",
+      "serialId": "B-1028-A-01-U05",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "fail",
+      "defectCode": "D06",
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-28T06:28:00+08:00"
+    },
+    {
+      "id": "INS-15",
+      "batchId": "B-1028-A-01",
+      "serialId": "B-1028-A-01-U05",
+      "opId": "OP40",
+      "seqNo": 2,
+      "result": "fail",
+      "defectCode": "D06",
+      "parentInspectionId": "INS-14",
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-28T07:26:00+08:00"
+    },
+    {
+      "id": "INS-16",
+      "batchId": "B-1028-A-01",
+      "serialId": "B-1028-A-01-U06",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-28T06:24:00+08:00"
+    },
+    {
+      "id": "INS-17",
+      "batchId": "B-1028-A-01",
+      "serialId": "B-1028-A-01-U06",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-28T06:30:00+08:00"
+    },
+    {
+      "id": "INS-18",
+      "batchId": "B-1028-A-01",
+      "serialId": "B-1028-A-01-U07",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-28T06:26:00+08:00"
+    },
+    {
+      "id": "INS-19",
+      "batchId": "B-1028-A-01",
+      "serialId": "B-1028-A-01-U07",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-28T06:32:00+08:00"
+    },
+    {
+      "id": "INS-20",
+      "batchId": "B-1028-A-01",
+      "serialId": "B-1028-A-01-U08",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-28T06:28:00+08:00"
+    },
+    {
+      "id": "INS-21",
+      "batchId": "B-1028-A-01",
+      "serialId": "B-1028-A-01-U08",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-28T06:34:00+08:00"
+    },
+    {
+      "id": "INS-22",
+      "batchId": "B-1028-A-01",
+      "serialId": "B-1028-A-01-U09",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-28T06:30:00+08:00"
+    },
+    {
+      "id": "INS-23",
+      "batchId": "B-1028-A-01",
+      "serialId": "B-1028-A-01-U09",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-28T06:36:00+08:00"
+    },
+    {
+      "id": "INS-24",
+      "batchId": "B-1028-A-01",
+      "serialId": "B-1028-A-01-U10",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-28T06:32:00+08:00"
+    },
+    {
+      "id": "INS-25",
+      "batchId": "B-1028-A-01",
+      "serialId": "B-1028-A-01-U10",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-28T06:38:00+08:00"
+    },
+    {
+      "id": "INS-26",
+      "batchId": "B-1029-A-02",
+      "serialId": "B-1029-A-02-U01",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "fail",
+      "defectCode": "D01",
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-29T22:14:00+08:00"
+    },
+    {
+      "id": "INS-27",
+      "batchId": "B-1029-A-02",
+      "serialId": "B-1029-A-02-U01",
+      "opId": "OP30",
+      "seqNo": 2,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": "INS-26",
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-29T23:12:00+08:00"
+    },
+    {
+      "id": "INS-28",
+      "batchId": "B-1029-A-02",
+      "serialId": "B-1029-A-02-U01",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-29T23:18:00+08:00"
+    },
+    {
+      "id": "INS-29",
+      "batchId": "B-1029-A-02",
+      "serialId": "B-1029-A-02-U02",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-29T22:16:00+08:00"
+    },
+    {
+      "id": "INS-30",
+      "batchId": "B-1029-A-02",
+      "serialId": "B-1029-A-02-U02",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "fail",
+      "defectCode": "D06",
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-29T22:22:00+08:00"
+    },
+    {
+      "id": "INS-31",
+      "batchId": "B-1029-A-02",
+      "serialId": "B-1029-A-02-U02",
+      "opId": "OP40",
+      "seqNo": 2,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": "INS-30",
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-29T23:20:00+08:00"
+    },
+    {
+      "id": "INS-32",
+      "batchId": "B-1029-A-02",
+      "serialId": "B-1029-A-02-U03",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-29T22:18:00+08:00"
+    },
+    {
+      "id": "INS-33",
+      "batchId": "B-1029-A-02",
+      "serialId": "B-1029-A-02-U03",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-29T22:24:00+08:00"
+    },
+    {
+      "id": "INS-34",
+      "batchId": "B-1029-A-02",
+      "serialId": "B-1029-A-02-U04",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-29T22:20:00+08:00"
+    },
+    {
+      "id": "INS-35",
+      "batchId": "B-1029-A-02",
+      "serialId": "B-1029-A-02-U04",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-29T22:26:00+08:00"
+    },
+    {
+      "id": "INS-36",
+      "batchId": "B-1029-A-02",
+      "serialId": "B-1029-A-02-U05",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-29T22:22:00+08:00"
+    },
+    {
+      "id": "INS-37",
+      "batchId": "B-1029-A-02",
+      "serialId": "B-1029-A-02-U05",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-29T22:28:00+08:00"
+    },
+    {
+      "id": "INS-38",
+      "batchId": "B-1029-A-02",
+      "serialId": "B-1029-A-02-U06",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-29T22:24:00+08:00"
+    },
+    {
+      "id": "INS-39",
+      "batchId": "B-1029-A-02",
+      "serialId": "B-1029-A-02-U06",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-29T22:30:00+08:00"
+    },
+    {
+      "id": "INS-40",
+      "batchId": "B-1029-A-02",
+      "serialId": "B-1029-A-02-U07",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-29T22:26:00+08:00"
+    },
+    {
+      "id": "INS-41",
+      "batchId": "B-1029-A-02",
+      "serialId": "B-1029-A-02-U07",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-29T22:32:00+08:00"
+    },
+    {
+      "id": "INS-42",
+      "batchId": "B-1029-A-02",
+      "serialId": "B-1029-A-02-U08",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-29T22:28:00+08:00"
+    },
+    {
+      "id": "INS-43",
+      "batchId": "B-1029-A-02",
+      "serialId": "B-1029-A-02-U09",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-29T22:30:00+08:00"
+    },
+    {
+      "id": "INS-44",
+      "batchId": "B-1029-A-02",
+      "serialId": "B-1029-A-02-U10",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-29T22:32:00+08:00"
+    },
+    {
+      "id": "INS-45",
+      "batchId": "B-1030-A-03",
+      "serialId": "B-1030-A-03-U01",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "fail",
+      "defectCode": "D02",
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-30T14:14:00+08:00"
+    },
+    {
+      "id": "INS-46",
+      "batchId": "B-1030-A-03",
+      "serialId": "B-1030-A-03-U01",
+      "opId": "OP30",
+      "seqNo": 2,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": "INS-45",
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-30T15:12:00+08:00"
+    },
+    {
+      "id": "INS-47",
+      "batchId": "B-1030-A-03",
+      "serialId": "B-1030-A-03-U01",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-30T15:18:00+08:00"
+    },
+    {
+      "id": "INS-48",
+      "batchId": "B-1030-A-03",
+      "serialId": "B-1030-A-03-U02",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-30T14:16:00+08:00"
+    },
+    {
+      "id": "INS-49",
+      "batchId": "B-1030-A-03",
+      "serialId": "B-1030-A-03-U02",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "fail",
+      "defectCode": "D06",
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-30T14:22:00+08:00"
+    },
+    {
+      "id": "INS-50",
+      "batchId": "B-1030-A-03",
+      "serialId": "B-1030-A-03-U03",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "fail",
+      "defectCode": "D01",
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-30T14:18:00+08:00"
+    },
+    {
+      "id": "INS-51",
+      "batchId": "B-1030-A-03",
+      "serialId": "B-1030-A-03-U03",
+      "opId": "OP30",
+      "seqNo": 2,
+      "result": "fail",
+      "defectCode": "D01",
+      "parentInspectionId": "INS-50",
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-30T15:16:00+08:00"
+    },
+    {
+      "id": "INS-52",
+      "batchId": "B-1030-A-03",
+      "serialId": "B-1030-A-03-U04",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-30T14:20:00+08:00"
+    },
+    {
+      "id": "INS-53",
+      "batchId": "B-1030-A-03",
+      "serialId": "B-1030-A-03-U04",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-30T14:26:00+08:00"
+    },
+    {
+      "id": "INS-54",
+      "batchId": "B-1030-A-03",
+      "serialId": "B-1030-A-03-U05",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-30T14:22:00+08:00"
+    },
+    {
+      "id": "INS-55",
+      "batchId": "B-1030-A-03",
+      "serialId": "B-1030-A-03-U05",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-30T14:28:00+08:00"
+    },
+    {
+      "id": "INS-56",
+      "batchId": "B-1030-A-03",
+      "serialId": "B-1030-A-03-U06",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-30T14:24:00+08:00"
+    },
+    {
+      "id": "INS-57",
+      "batchId": "B-1030-A-03",
+      "serialId": "B-1030-A-03-U06",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-30T14:30:00+08:00"
+    },
+    {
+      "id": "INS-58",
+      "batchId": "B-1030-A-03",
+      "serialId": "B-1030-A-03-U07",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-30T14:26:00+08:00"
+    },
+    {
+      "id": "INS-59",
+      "batchId": "B-1030-A-03",
+      "serialId": "B-1030-A-03-U07",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-30T14:32:00+08:00"
+    },
+    {
+      "id": "INS-60",
+      "batchId": "B-1030-A-03",
+      "serialId": "B-1030-A-03-U08",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-30T14:28:00+08:00"
+    },
+    {
+      "id": "INS-61",
+      "batchId": "B-1030-A-03",
+      "serialId": "B-1030-A-03-U08",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-30T14:34:00+08:00"
+    },
+    {
+      "id": "INS-62",
+      "batchId": "B-1030-A-03",
+      "serialId": "B-1030-A-03-U09",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-30T14:30:00+08:00"
+    },
+    {
+      "id": "INS-63",
+      "batchId": "B-1030-A-03",
+      "serialId": "B-1030-A-03-U09",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-30T14:36:00+08:00"
+    },
+    {
+      "id": "INS-64",
+      "batchId": "B-1030-A-03",
+      "serialId": "B-1030-A-03-U10",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-30T14:32:00+08:00"
+    },
+    {
+      "id": "INS-65",
+      "batchId": "B-1030-A-03",
+      "serialId": "B-1030-A-03-U10",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-10-30T14:38:00+08:00"
+    },
+    {
+      "id": "INS-66",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U01",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "fail",
+      "defectCode": "D04",
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-30T06:02:00+08:00"
+    },
+    {
+      "id": "INS-67",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U01",
+      "opId": "OP10",
+      "seqNo": 2,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": "INS-66",
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-30T07:00:00+08:00"
+    },
+    {
+      "id": "INS-68",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U01",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-30T07:12:00+08:00"
+    },
+    {
+      "id": "INS-69",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U02",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-30T06:04:00+08:00"
+    },
+    {
+      "id": "INS-70",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U02",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "fail",
+      "defectCode": "D05",
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-30T06:16:00+08:00"
+    },
+    {
+      "id": "INS-71",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U02",
+      "opId": "OP30",
+      "seqNo": 2,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": "INS-70",
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-30T07:14:00+08:00"
+    },
+    {
+      "id": "INS-72",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U03",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "fail",
+      "defectCode": "D04",
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-30T06:06:00+08:00"
+    },
+    {
+      "id": "INS-73",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U03",
+      "opId": "OP10",
+      "seqNo": 2,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": "INS-72",
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-30T07:04:00+08:00"
+    },
+    {
+      "id": "INS-74",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U03",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "fail",
+      "defectCode": "D05",
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-30T07:16:00+08:00"
+    },
+    {
+      "id": "INS-75",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U03",
+      "opId": "OP30",
+      "seqNo": 2,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": "INS-74",
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-30T08:14:00+08:00"
+    },
+    {
+      "id": "INS-76",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U04",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-30T06:08:00+08:00"
+    },
+    {
+      "id": "INS-77",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U04",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-30T06:20:00+08:00"
+    },
+    {
+      "id": "INS-78",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U05",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-30T06:10:00+08:00"
+    },
+    {
+      "id": "INS-79",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U05",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-30T06:22:00+08:00"
+    },
+    {
+      "id": "INS-80",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U06",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-30T06:12:00+08:00"
+    },
+    {
+      "id": "INS-81",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U06",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-30T06:24:00+08:00"
+    },
+    {
+      "id": "INS-82",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U07",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-30T06:14:00+08:00"
+    },
+    {
+      "id": "INS-83",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U07",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-30T06:26:00+08:00"
+    },
+    {
+      "id": "INS-84",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U08",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-30T06:16:00+08:00"
+    },
+    {
+      "id": "INS-85",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U08",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-30T06:28:00+08:00"
+    },
+    {
+      "id": "INS-86",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U09",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-30T06:18:00+08:00"
+    },
+    {
+      "id": "INS-87",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U09",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-30T06:30:00+08:00"
+    },
+    {
+      "id": "INS-88",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U10",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-30T06:20:00+08:00"
+    },
+    {
+      "id": "INS-89",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U10",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-30T06:32:00+08:00"
+    },
+    {
+      "id": "INS-90",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U11",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-30T06:22:00+08:00"
+    },
+    {
+      "id": "INS-91",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U11",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-30T06:34:00+08:00"
+    },
+    {
+      "id": "INS-92",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U12",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-30T06:24:00+08:00"
+    },
+    {
+      "id": "INS-93",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U12",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-30T06:36:00+08:00"
+    },
+    {
+      "id": "INS-94",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U01",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "fail",
+      "defectCode": "D04",
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-31T22:02:00+08:00"
+    },
+    {
+      "id": "INS-95",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U01",
+      "opId": "OP10",
+      "seqNo": 2,
+      "result": "fail",
+      "defectCode": "D04",
+      "parentInspectionId": "INS-94",
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-31T23:00:00+08:00"
+    },
+    {
+      "id": "INS-96",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U02",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "fail",
+      "defectCode": "D04",
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-31T22:04:00+08:00"
+    },
+    {
+      "id": "INS-97",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U02",
+      "opId": "OP10",
+      "seqNo": 2,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": "INS-96",
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-31T23:02:00+08:00"
+    },
+    {
+      "id": "INS-98",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U02",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "fail",
+      "defectCode": "D05",
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-31T23:14:00+08:00"
+    },
+    {
+      "id": "INS-99",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U02",
+      "opId": "OP30",
+      "seqNo": 2,
+      "result": "fail",
+      "defectCode": "D05",
+      "parentInspectionId": "INS-98",
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-11-01T00:12:00+08:00"
+    },
+    {
+      "id": "INS-100",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U03",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-31T22:06:00+08:00"
+    },
+    {
+      "id": "INS-101",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U03",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "fail",
+      "defectCode": "D05",
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-31T22:18:00+08:00"
+    },
+    {
+      "id": "INS-102",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U03",
+      "opId": "OP30",
+      "seqNo": 2,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": "INS-101",
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-31T23:16:00+08:00"
+    },
+    {
+      "id": "INS-103",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U04",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-31T22:08:00+08:00"
+    },
+    {
+      "id": "INS-104",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U04",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "fail",
+      "defectCode": "D05",
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-31T22:20:00+08:00"
+    },
+    {
+      "id": "INS-105",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U05",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-31T22:10:00+08:00"
+    },
+    {
+      "id": "INS-106",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U05",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-31T22:22:00+08:00"
+    },
+    {
+      "id": "INS-107",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U06",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-31T22:12:00+08:00"
+    },
+    {
+      "id": "INS-108",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U06",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-31T22:24:00+08:00"
+    },
+    {
+      "id": "INS-109",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U07",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-31T22:14:00+08:00"
+    },
+    {
+      "id": "INS-110",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U07",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-31T22:26:00+08:00"
+    },
+    {
+      "id": "INS-111",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U08",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-31T22:16:00+08:00"
+    },
+    {
+      "id": "INS-112",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U08",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-31T22:28:00+08:00"
+    },
+    {
+      "id": "INS-113",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U09",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-31T22:18:00+08:00"
+    },
+    {
+      "id": "INS-114",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U09",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-31T22:30:00+08:00"
+    },
+    {
+      "id": "INS-115",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U10",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-31T22:20:00+08:00"
+    },
+    {
+      "id": "INS-116",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U10",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-31T22:32:00+08:00"
+    },
+    {
+      "id": "INS-117",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U11",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-31T22:22:00+08:00"
+    },
+    {
+      "id": "INS-118",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U11",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-31T22:34:00+08:00"
+    },
+    {
+      "id": "INS-119",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U12",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-31T22:24:00+08:00"
+    },
+    {
+      "id": "INS-120",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U12",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-10-31T22:36:00+08:00"
+    },
+    {
+      "id": "INS-121",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U01",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "fail",
+      "defectCode": "D03",
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T06:20:00+08:00"
+    },
+    {
+      "id": "INS-122",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U01",
+      "opId": "OP30",
+      "seqNo": 2,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": "INS-121",
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T07:18:00+08:00"
+    },
+    {
+      "id": "INS-123",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U01",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T07:24:00+08:00"
+    },
+    {
+      "id": "INS-124",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U01",
+      "opId": "OP50",
+      "seqNo": 1,
+      "result": "fail",
+      "defectCode": "D07",
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T07:30:00+08:00"
+    },
+    {
+      "id": "INS-125",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U01",
+      "opId": "OP50",
+      "seqNo": 2,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": "INS-124",
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T08:28:00+08:00"
+    },
+    {
+      "id": "INS-126",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U02",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T06:22:00+08:00"
+    },
+    {
+      "id": "INS-127",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U02",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T06:28:00+08:00"
+    },
+    {
+      "id": "INS-128",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U02",
+      "opId": "OP50",
+      "seqNo": 1,
+      "result": "fail",
+      "defectCode": "D07",
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T06:34:00+08:00"
+    },
+    {
+      "id": "INS-129",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U03",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T06:24:00+08:00"
+    },
+    {
+      "id": "INS-130",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U03",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T06:30:00+08:00"
+    },
+    {
+      "id": "INS-131",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U03",
+      "opId": "OP50",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T06:36:00+08:00"
+    },
+    {
+      "id": "INS-132",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U04",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T06:26:00+08:00"
+    },
+    {
+      "id": "INS-133",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U04",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T06:32:00+08:00"
+    },
+    {
+      "id": "INS-134",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U04",
+      "opId": "OP50",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T06:38:00+08:00"
+    },
+    {
+      "id": "INS-135",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U05",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T06:28:00+08:00"
+    },
+    {
+      "id": "INS-136",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U05",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T06:34:00+08:00"
+    },
+    {
+      "id": "INS-137",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U05",
+      "opId": "OP50",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T06:40:00+08:00"
+    },
+    {
+      "id": "INS-138",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U06",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T06:30:00+08:00"
+    },
+    {
+      "id": "INS-139",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U06",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T06:36:00+08:00"
+    },
+    {
+      "id": "INS-140",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U06",
+      "opId": "OP50",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T06:42:00+08:00"
+    },
+    {
+      "id": "INS-141",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U07",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T06:32:00+08:00"
+    },
+    {
+      "id": "INS-142",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U07",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T06:38:00+08:00"
+    },
+    {
+      "id": "INS-143",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U07",
+      "opId": "OP50",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T06:44:00+08:00"
+    },
+    {
+      "id": "INS-144",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U08",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T06:34:00+08:00"
+    },
+    {
+      "id": "INS-145",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U08",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T06:40:00+08:00"
+    },
+    {
+      "id": "INS-146",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U08",
+      "opId": "OP50",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T06:46:00+08:00"
+    },
+    {
+      "id": "INS-147",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U09",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T06:36:00+08:00"
+    },
+    {
+      "id": "INS-148",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U09",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T06:42:00+08:00"
+    },
+    {
+      "id": "INS-149",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U09",
+      "opId": "OP50",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T06:48:00+08:00"
+    },
+    {
+      "id": "INS-150",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U10",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T06:38:00+08:00"
+    },
+    {
+      "id": "INS-151",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U10",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T06:44:00+08:00"
+    },
+    {
+      "id": "INS-152",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U10",
+      "opId": "OP50",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-01T06:50:00+08:00"
+    },
+    {
+      "id": "INS-153",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U01",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "fail",
+      "defectCode": "D01",
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-02T22:20:00+08:00"
+    },
+    {
+      "id": "INS-154",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U01",
+      "opId": "OP30",
+      "seqNo": 2,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": "INS-153",
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-02T23:18:00+08:00"
+    },
+    {
+      "id": "INS-155",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U01",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-02T23:24:00+08:00"
+    },
+    {
+      "id": "INS-156",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U01",
+      "opId": "OP50",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-02T23:30:00+08:00"
+    },
+    {
+      "id": "INS-157",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U02",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-02T22:22:00+08:00"
+    },
+    {
+      "id": "INS-158",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U02",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "fail",
+      "defectCode": "D06",
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-02T22:28:00+08:00"
+    },
+    {
+      "id": "INS-159",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U02",
+      "opId": "OP40",
+      "seqNo": 2,
+      "result": "fail",
+      "defectCode": "D06",
+      "parentInspectionId": "INS-158",
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-02T23:26:00+08:00"
+    },
+    {
+      "id": "INS-160",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U03",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-02T22:24:00+08:00"
+    },
+    {
+      "id": "INS-161",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U03",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-02T22:30:00+08:00"
+    },
+    {
+      "id": "INS-162",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U03",
+      "opId": "OP50",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-02T22:36:00+08:00"
+    },
+    {
+      "id": "INS-163",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U04",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-02T22:26:00+08:00"
+    },
+    {
+      "id": "INS-164",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U04",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-02T22:32:00+08:00"
+    },
+    {
+      "id": "INS-165",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U04",
+      "opId": "OP50",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-02T22:38:00+08:00"
+    },
+    {
+      "id": "INS-166",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U05",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-02T22:28:00+08:00"
+    },
+    {
+      "id": "INS-167",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U05",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-02T22:34:00+08:00"
+    },
+    {
+      "id": "INS-168",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U05",
+      "opId": "OP50",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-02T22:40:00+08:00"
+    },
+    {
+      "id": "INS-169",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U06",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-02T22:30:00+08:00"
+    },
+    {
+      "id": "INS-170",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U06",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-02T22:36:00+08:00"
+    },
+    {
+      "id": "INS-171",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U06",
+      "opId": "OP50",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-02T22:42:00+08:00"
+    },
+    {
+      "id": "INS-172",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U07",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-02T22:32:00+08:00"
+    },
+    {
+      "id": "INS-173",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U07",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-02T22:38:00+08:00"
+    },
+    {
+      "id": "INS-174",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U07",
+      "opId": "OP50",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-02T22:44:00+08:00"
+    },
+    {
+      "id": "INS-175",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U08",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-02T22:34:00+08:00"
+    },
+    {
+      "id": "INS-176",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U08",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-02T22:40:00+08:00"
+    },
+    {
+      "id": "INS-177",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U08",
+      "opId": "OP50",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-02T22:46:00+08:00"
+    },
+    {
+      "id": "INS-178",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U09",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-02T22:36:00+08:00"
+    },
+    {
+      "id": "INS-179",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U09",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-02T22:42:00+08:00"
+    },
+    {
+      "id": "INS-180",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U09",
+      "opId": "OP50",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-02T22:48:00+08:00"
+    },
+    {
+      "id": "INS-181",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U10",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-02T22:38:00+08:00"
+    },
+    {
+      "id": "INS-182",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U10",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-02T22:44:00+08:00"
+    },
+    {
+      "id": "INS-183",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U10",
+      "opId": "OP50",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-02T22:50:00+08:00"
+    },
+    {
+      "id": "INS-184",
+      "batchId": "B-1103-B-08",
+      "serialId": "B-1103-B-08-U01",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "fail",
+      "defectCode": "D04",
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-11-03T14:02:00+08:00"
+    },
+    {
+      "id": "INS-185",
+      "batchId": "B-1103-B-08",
+      "serialId": "B-1103-B-08-U01",
+      "opId": "OP10",
+      "seqNo": 2,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": "INS-184",
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-11-03T15:00:00+08:00"
+    },
+    {
+      "id": "INS-186",
+      "batchId": "B-1103-B-08",
+      "serialId": "B-1103-B-08-U01",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-11-03T15:12:00+08:00"
+    },
+    {
+      "id": "INS-187",
+      "batchId": "B-1103-B-08",
+      "serialId": "B-1103-B-08-U02",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-11-03T14:04:00+08:00"
+    },
+    {
+      "id": "INS-188",
+      "batchId": "B-1103-B-08",
+      "serialId": "B-1103-B-08-U02",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-11-03T14:16:00+08:00"
+    },
+    {
+      "id": "INS-189",
+      "batchId": "B-1103-B-08",
+      "serialId": "B-1103-B-08-U03",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-11-03T14:06:00+08:00"
+    },
+    {
+      "id": "INS-190",
+      "batchId": "B-1103-B-08",
+      "serialId": "B-1103-B-08-U03",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-11-03T14:18:00+08:00"
+    },
+    {
+      "id": "INS-191",
+      "batchId": "B-1103-B-08",
+      "serialId": "B-1103-B-08-U04",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-11-03T14:08:00+08:00"
+    },
+    {
+      "id": "INS-192",
+      "batchId": "B-1103-B-08",
+      "serialId": "B-1103-B-08-U04",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-11-03T14:20:00+08:00"
+    },
+    {
+      "id": "INS-193",
+      "batchId": "B-1103-B-08",
+      "serialId": "B-1103-B-08-U05",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-11-03T14:10:00+08:00"
+    },
+    {
+      "id": "INS-194",
+      "batchId": "B-1103-B-08",
+      "serialId": "B-1103-B-08-U05",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-11-03T14:22:00+08:00"
+    },
+    {
+      "id": "INS-195",
+      "batchId": "B-1103-B-08",
+      "serialId": "B-1103-B-08-U06",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-11-03T14:12:00+08:00"
+    },
+    {
+      "id": "INS-196",
+      "batchId": "B-1103-B-08",
+      "serialId": "B-1103-B-08-U06",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-11-03T14:24:00+08:00"
+    },
+    {
+      "id": "INS-197",
+      "batchId": "B-1103-B-08",
+      "serialId": "B-1103-B-08-U07",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-11-03T14:14:00+08:00"
+    },
+    {
+      "id": "INS-198",
+      "batchId": "B-1103-B-08",
+      "serialId": "B-1103-B-08-U07",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-11-03T14:26:00+08:00"
+    },
+    {
+      "id": "INS-199",
+      "batchId": "B-1103-B-08",
+      "serialId": "B-1103-B-08-U08",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-11-03T14:16:00+08:00"
+    },
+    {
+      "id": "INS-200",
+      "batchId": "B-1103-B-08",
+      "serialId": "B-1103-B-08-U08",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-11-03T14:28:00+08:00"
+    },
+    {
+      "id": "INS-201",
+      "batchId": "B-1103-B-08",
+      "serialId": "B-1103-B-08-U09",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-11-03T14:18:00+08:00"
+    },
+    {
+      "id": "INS-202",
+      "batchId": "B-1103-B-08",
+      "serialId": "B-1103-B-08-U09",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-11-03T14:30:00+08:00"
+    },
+    {
+      "id": "INS-203",
+      "batchId": "B-1103-B-08",
+      "serialId": "B-1103-B-08-U10",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-11-03T14:20:00+08:00"
+    },
+    {
+      "id": "INS-204",
+      "batchId": "B-1103-B-08",
+      "serialId": "B-1103-B-08-U10",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-11-03T14:32:00+08:00"
+    },
+    {
+      "id": "INS-205",
+      "batchId": "B-1103-B-08",
+      "serialId": "B-1103-B-08-U11",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-11-03T14:22:00+08:00"
+    },
+    {
+      "id": "INS-206",
+      "batchId": "B-1103-B-08",
+      "serialId": "B-1103-B-08-U11",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-11-03T14:34:00+08:00"
+    },
+    {
+      "id": "INS-207",
+      "batchId": "B-1103-B-08",
+      "serialId": "B-1103-B-08-U12",
+      "opId": "OP10",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-11-03T14:24:00+08:00"
+    },
+    {
+      "id": "INS-208",
+      "batchId": "B-1103-B-08",
+      "serialId": "B-1103-B-08-U12",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L2",
+      "inspectedAt": "2026-11-03T14:36:00+08:00"
+    },
+    {
+      "id": "INS-209",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U01",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "fail",
+      "defectCode": "D02",
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-04T14:20:00+08:00"
+    },
+    {
+      "id": "INS-210",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U01",
+      "opId": "OP30",
+      "seqNo": 2,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": "INS-209",
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-04T15:18:00+08:00"
+    },
+    {
+      "id": "INS-211",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U01",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-04T15:24:00+08:00"
+    },
+    {
+      "id": "INS-212",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U01",
+      "opId": "OP50",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-04T15:30:00+08:00"
+    },
+    {
+      "id": "INS-213",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U02",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-04T14:22:00+08:00"
+    },
+    {
+      "id": "INS-214",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U02",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-04T14:28:00+08:00"
+    },
+    {
+      "id": "INS-215",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U02",
+      "opId": "OP50",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-04T14:34:00+08:00"
+    },
+    {
+      "id": "INS-216",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U03",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-04T14:24:00+08:00"
+    },
+    {
+      "id": "INS-217",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U03",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-04T14:30:00+08:00"
+    },
+    {
+      "id": "INS-218",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U03",
+      "opId": "OP50",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-04T14:36:00+08:00"
+    },
+    {
+      "id": "INS-219",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U04",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-04T14:26:00+08:00"
+    },
+    {
+      "id": "INS-220",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U04",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-04T14:32:00+08:00"
+    },
+    {
+      "id": "INS-221",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U04",
+      "opId": "OP50",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-04T14:38:00+08:00"
+    },
+    {
+      "id": "INS-222",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U05",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-04T14:28:00+08:00"
+    },
+    {
+      "id": "INS-223",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U05",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-04T14:34:00+08:00"
+    },
+    {
+      "id": "INS-224",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U05",
+      "opId": "OP50",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-04T14:40:00+08:00"
+    },
+    {
+      "id": "INS-225",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U06",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-04T14:30:00+08:00"
+    },
+    {
+      "id": "INS-226",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U06",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-04T14:36:00+08:00"
+    },
+    {
+      "id": "INS-227",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U06",
+      "opId": "OP50",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-04T14:42:00+08:00"
+    },
+    {
+      "id": "INS-228",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U07",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-04T14:32:00+08:00"
+    },
+    {
+      "id": "INS-229",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U07",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-04T14:38:00+08:00"
+    },
+    {
+      "id": "INS-230",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U07",
+      "opId": "OP50",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-04T14:44:00+08:00"
+    },
+    {
+      "id": "INS-231",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U08",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-04T14:34:00+08:00"
+    },
+    {
+      "id": "INS-232",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U08",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-04T14:40:00+08:00"
+    },
+    {
+      "id": "INS-233",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U08",
+      "opId": "OP50",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-04T14:46:00+08:00"
+    },
+    {
+      "id": "INS-234",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U09",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-04T14:36:00+08:00"
+    },
+    {
+      "id": "INS-235",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U09",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-04T14:42:00+08:00"
+    },
+    {
+      "id": "INS-236",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U09",
+      "opId": "OP50",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-04T14:48:00+08:00"
+    },
+    {
+      "id": "INS-237",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U10",
+      "opId": "OP30",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-04T14:38:00+08:00"
+    },
+    {
+      "id": "INS-238",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U10",
+      "opId": "OP40",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-04T14:44:00+08:00"
+    },
+    {
+      "id": "INS-239",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U10",
+      "opId": "OP50",
+      "seqNo": 1,
+      "result": "pass",
+      "defectCode": null,
+      "parentInspectionId": null,
+      "inspectorId": "QC-L1",
+      "inspectedAt": "2026-11-04T14:50:00+08:00"
+    }
+  ],
+  "reworkRecords": [
+    {
+      "id": "RW-1",
+      "batchId": "B-1028-A-01",
+      "serialId": "B-1028-A-01-U02",
+      "defectCode": "D03",
+      "fromOpId": "OP30",
+      "reworkOpId": "OP30",
+      "sourceInspectionId": "INS-3",
+      "status": "closed",
+      "laborMinutes": 25,
+      "laborCost": 27.08,
+      "materialCost": 12,
+      "totalCost": 39.08,
+      "createdAt": "2026-10-28T06:24:00+08:00",
+      "closedAt": "2026-10-28T07:09:00+08:00"
+    },
+    {
+      "id": "RW-2",
+      "batchId": "B-1028-A-01",
+      "serialId": "B-1028-A-01-U03",
+      "defectCode": "D03",
+      "fromOpId": "OP30",
+      "reworkOpId": "OP30",
+      "sourceInspectionId": "INS-6",
+      "status": "closed",
+      "laborMinutes": 25,
+      "laborCost": 27.08,
+      "materialCost": 12,
+      "totalCost": 39.08,
+      "createdAt": "2026-10-28T06:26:00+08:00",
+      "closedAt": "2026-10-28T07:11:00+08:00"
+    },
+    {
+      "id": "RW-3",
+      "batchId": "B-1028-A-01",
+      "serialId": "B-1028-A-01-U03",
+      "defectCode": "D03",
+      "fromOpId": "OP30",
+      "reworkOpId": "OP30",
+      "sourceInspectionId": "INS-6",
+      "status": "closed",
+      "laborMinutes": 25,
+      "laborCost": 27.08,
+      "materialCost": 12,
+      "totalCost": 39.08,
+      "createdAt": "2026-10-28T07:24:00+08:00",
+      "closedAt": "2026-10-28T08:09:00+08:00"
+    },
+    {
+      "id": "RW-4",
+      "batchId": "B-1028-A-01",
+      "serialId": "B-1028-A-01-U04",
+      "defectCode": "D06",
+      "fromOpId": "OP40",
+      "reworkOpId": "OP40",
+      "sourceInspectionId": "INS-11",
+      "status": "closed",
+      "laborMinutes": 40,
+      "laborCost": 43.33,
+      "materialCost": 35,
+      "totalCost": 78.33,
+      "createdAt": "2026-10-28T06:34:00+08:00",
+      "closedAt": "2026-10-28T07:19:00+08:00"
+    },
+    {
+      "id": "RW-5",
+      "batchId": "B-1028-A-01",
+      "serialId": "B-1028-A-01-U05",
+      "defectCode": "D06",
+      "fromOpId": "OP40",
+      "reworkOpId": "OP40",
+      "sourceInspectionId": "INS-14",
+      "status": "closed",
+      "laborMinutes": 40,
+      "laborCost": 43.33,
+      "materialCost": 35,
+      "totalCost": 78.33,
+      "createdAt": "2026-10-28T06:36:00+08:00",
+      "closedAt": "2026-10-28T07:21:00+08:00"
+    },
+    {
+      "id": "RW-6",
+      "batchId": "B-1029-A-02",
+      "serialId": "B-1029-A-02-U01",
+      "defectCode": "D01",
+      "fromOpId": "OP30",
+      "reworkOpId": "OP30",
+      "sourceInspectionId": "INS-26",
+      "status": "closed",
+      "laborMinutes": 20,
+      "laborCost": 21.67,
+      "materialCost": 10,
+      "totalCost": 31.67,
+      "createdAt": "2026-10-29T22:22:00+08:00",
+      "closedAt": "2026-10-29T23:07:00+08:00"
+    },
+    {
+      "id": "RW-7",
+      "batchId": "B-1029-A-02",
+      "serialId": "B-1029-A-02-U02",
+      "defectCode": "D06",
+      "fromOpId": "OP40",
+      "reworkOpId": "OP40",
+      "sourceInspectionId": "INS-30",
+      "status": "closed",
+      "laborMinutes": 40,
+      "laborCost": 43.33,
+      "materialCost": 35,
+      "totalCost": 78.33,
+      "createdAt": "2026-10-29T22:30:00+08:00",
+      "closedAt": "2026-10-29T23:15:00+08:00"
+    },
+    {
+      "id": "RW-8",
+      "batchId": "B-1030-A-03",
+      "serialId": "B-1030-A-03-U01",
+      "defectCode": "D02",
+      "fromOpId": "OP30",
+      "reworkOpId": "OP30",
+      "sourceInspectionId": "INS-45",
+      "status": "closed",
+      "laborMinutes": 15,
+      "laborCost": 16.25,
+      "materialCost": 6,
+      "totalCost": 22.25,
+      "createdAt": "2026-10-30T14:22:00+08:00",
+      "closedAt": "2026-10-30T15:07:00+08:00"
+    },
+    {
+      "id": "RW-9",
+      "batchId": "B-1030-A-03",
+      "serialId": "B-1030-A-03-U03",
+      "defectCode": "D01",
+      "fromOpId": "OP30",
+      "reworkOpId": "OP30",
+      "sourceInspectionId": "INS-50",
+      "status": "closed",
+      "laborMinutes": 20,
+      "laborCost": 21.67,
+      "materialCost": 10,
+      "totalCost": 31.67,
+      "createdAt": "2026-10-30T14:26:00+08:00",
+      "closedAt": "2026-10-30T15:11:00+08:00"
+    },
+    {
+      "id": "RW-10",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U01",
+      "defectCode": "D04",
+      "fromOpId": "OP10",
+      "reworkOpId": "OP10",
+      "sourceInspectionId": "INS-66",
+      "status": "closed",
+      "laborMinutes": 18,
+      "laborCost": 16.5,
+      "materialCost": 8,
+      "totalCost": 24.5,
+      "createdAt": "2026-10-30T06:10:00+08:00",
+      "closedAt": "2026-10-30T06:55:00+08:00"
+    },
+    {
+      "id": "RW-11",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U02",
+      "defectCode": "D05",
+      "fromOpId": "OP30",
+      "reworkOpId": "OP30",
+      "sourceInspectionId": "INS-70",
+      "status": "closed",
+      "laborMinutes": 30,
+      "laborCost": 27.5,
+      "materialCost": 15,
+      "totalCost": 42.5,
+      "createdAt": "2026-10-30T06:24:00+08:00",
+      "closedAt": "2026-10-30T07:09:00+08:00"
+    },
+    {
+      "id": "RW-12",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U03",
+      "defectCode": "D04",
+      "fromOpId": "OP10",
+      "reworkOpId": "OP10",
+      "sourceInspectionId": "INS-72",
+      "status": "closed",
+      "laborMinutes": 18,
+      "laborCost": 16.5,
+      "materialCost": 8,
+      "totalCost": 24.5,
+      "createdAt": "2026-10-30T06:14:00+08:00",
+      "closedAt": "2026-10-30T06:59:00+08:00"
+    },
+    {
+      "id": "RW-13",
+      "batchId": "B-1030-B-04",
+      "serialId": "B-1030-B-04-U03",
+      "defectCode": "D05",
+      "fromOpId": "OP30",
+      "reworkOpId": "OP30",
+      "sourceInspectionId": "INS-74",
+      "status": "closed",
+      "laborMinutes": 30,
+      "laborCost": 27.5,
+      "materialCost": 15,
+      "totalCost": 42.5,
+      "createdAt": "2026-10-30T07:24:00+08:00",
+      "closedAt": "2026-10-30T08:09:00+08:00"
+    },
+    {
+      "id": "RW-14",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U01",
+      "defectCode": "D04",
+      "fromOpId": "OP10",
+      "reworkOpId": "OP10",
+      "sourceInspectionId": "INS-94",
+      "status": "closed",
+      "laborMinutes": 18,
+      "laborCost": 16.5,
+      "materialCost": 8,
+      "totalCost": 24.5,
+      "createdAt": "2026-10-31T22:10:00+08:00",
+      "closedAt": "2026-10-31T22:55:00+08:00"
+    },
+    {
+      "id": "RW-15",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U02",
+      "defectCode": "D04",
+      "fromOpId": "OP10",
+      "reworkOpId": "OP10",
+      "sourceInspectionId": "INS-96",
+      "status": "closed",
+      "laborMinutes": 18,
+      "laborCost": 16.5,
+      "materialCost": 8,
+      "totalCost": 24.5,
+      "createdAt": "2026-10-31T22:12:00+08:00",
+      "closedAt": "2026-10-31T22:57:00+08:00"
+    },
+    {
+      "id": "RW-16",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U02",
+      "defectCode": "D05",
+      "fromOpId": "OP30",
+      "reworkOpId": "OP30",
+      "sourceInspectionId": "INS-98",
+      "status": "closed",
+      "laborMinutes": 30,
+      "laborCost": 27.5,
+      "materialCost": 15,
+      "totalCost": 42.5,
+      "createdAt": "2026-10-31T23:22:00+08:00",
+      "closedAt": "2026-11-01T00:07:00+08:00"
+    },
+    {
+      "id": "RW-17",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U03",
+      "defectCode": "D05",
+      "fromOpId": "OP30",
+      "reworkOpId": "OP30",
+      "sourceInspectionId": "INS-101",
+      "status": "closed",
+      "laborMinutes": 30,
+      "laborCost": 27.5,
+      "materialCost": 15,
+      "totalCost": 42.5,
+      "createdAt": "2026-10-31T22:26:00+08:00",
+      "closedAt": "2026-10-31T23:11:00+08:00"
+    },
+    {
+      "id": "RW-18",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U04",
+      "defectCode": "D05",
+      "fromOpId": "OP30",
+      "reworkOpId": "OP30",
+      "sourceInspectionId": "INS-104",
+      "status": "open",
+      "laborMinutes": 30,
+      "laborCost": 27.5,
+      "materialCost": 15,
+      "totalCost": 42.5,
+      "createdAt": "2026-10-31T22:28:00+08:00",
+      "closedAt": null
+    },
+    {
+      "id": "RW-19",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U01",
+      "defectCode": "D03",
+      "fromOpId": "OP30",
+      "reworkOpId": "OP30",
+      "sourceInspectionId": "INS-121",
+      "status": "closed",
+      "laborMinutes": 25,
+      "laborCost": 27.08,
+      "materialCost": 12,
+      "totalCost": 39.08,
+      "createdAt": "2026-11-01T06:28:00+08:00",
+      "closedAt": "2026-11-01T07:13:00+08:00"
+    },
+    {
+      "id": "RW-20",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U01",
+      "defectCode": "D07",
+      "fromOpId": "OP50",
+      "reworkOpId": "OP50",
+      "sourceInspectionId": "INS-124",
+      "status": "closed",
+      "laborMinutes": 50,
+      "laborCost": 54.17,
+      "materialCost": 40,
+      "totalCost": 94.17,
+      "createdAt": "2026-11-01T07:38:00+08:00",
+      "closedAt": "2026-11-01T08:23:00+08:00"
+    },
+    {
+      "id": "RW-21",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U01",
+      "defectCode": "D01",
+      "fromOpId": "OP30",
+      "reworkOpId": "OP30",
+      "sourceInspectionId": "INS-153",
+      "status": "closed",
+      "laborMinutes": 20,
+      "laborCost": 21.67,
+      "materialCost": 10,
+      "totalCost": 31.67,
+      "createdAt": "2026-11-02T22:28:00+08:00",
+      "closedAt": "2026-11-02T23:13:00+08:00"
+    },
+    {
+      "id": "RW-22",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U02",
+      "defectCode": "D06",
+      "fromOpId": "OP40",
+      "reworkOpId": "OP40",
+      "sourceInspectionId": "INS-158",
+      "status": "closed",
+      "laborMinutes": 40,
+      "laborCost": 43.33,
+      "materialCost": 35,
+      "totalCost": 78.33,
+      "createdAt": "2026-11-02T22:36:00+08:00",
+      "closedAt": "2026-11-02T23:21:00+08:00"
+    },
+    {
+      "id": "RW-23",
+      "batchId": "B-1103-B-08",
+      "serialId": "B-1103-B-08-U01",
+      "defectCode": "D04",
+      "fromOpId": "OP10",
+      "reworkOpId": "OP10",
+      "sourceInspectionId": "INS-184",
+      "status": "closed",
+      "laborMinutes": 18,
+      "laborCost": 16.5,
+      "materialCost": 8,
+      "totalCost": 24.5,
+      "createdAt": "2026-11-03T14:10:00+08:00",
+      "closedAt": "2026-11-03T14:55:00+08:00"
+    },
+    {
+      "id": "RW-24",
+      "batchId": "B-1104-A-09",
+      "serialId": "B-1104-A-09-U01",
+      "defectCode": "D02",
+      "fromOpId": "OP30",
+      "reworkOpId": "OP30",
+      "sourceInspectionId": "INS-209",
+      "status": "closed",
+      "laborMinutes": 15,
+      "laborCost": 16.25,
+      "materialCost": 6,
+      "totalCost": 22.25,
+      "createdAt": "2026-11-04T14:28:00+08:00",
+      "closedAt": "2026-11-04T15:13:00+08:00"
+    }
+  ],
+  "scrapRecords": [
+    {
+      "id": "SC-1",
+      "batchId": "B-1028-A-01",
+      "serialId": "B-1028-A-01-U05",
+      "defectCode": "D06",
+      "fromOpId": "OP40",
+      "sourceInspectionId": "INS-14",
+      "materialLossCost": 240,
+      "processingCost": 79,
+      "scrappedAt": "2026-10-28T07:36:00+08:00"
+    },
+    {
+      "id": "SC-2",
+      "batchId": "B-1030-A-03",
+      "serialId": "B-1030-A-03-U02",
+      "defectCode": "D06",
+      "fromOpId": "OP40",
+      "sourceInspectionId": "INS-49",
+      "materialLossCost": 240,
+      "processingCost": 79,
+      "scrappedAt": "2026-10-30T14:40:00+08:00"
+    },
+    {
+      "id": "SC-3",
+      "batchId": "B-1030-A-03",
+      "serialId": "B-1030-A-03-U03",
+      "defectCode": "D01",
+      "fromOpId": "OP30",
+      "sourceInspectionId": "INS-50",
+      "materialLossCost": 240,
+      "processingCost": 64,
+      "scrappedAt": "2026-10-30T15:26:00+08:00"
+    },
+    {
+      "id": "SC-4",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U01",
+      "defectCode": "D04",
+      "fromOpId": "OP10",
+      "sourceInspectionId": "INS-94",
+      "materialLossCost": 95,
+      "processingCost": 24,
+      "scrappedAt": "2026-10-31T23:10:00+08:00"
+    },
+    {
+      "id": "SC-5",
+      "batchId": "B-1031-B-05",
+      "serialId": "B-1031-B-05-U02",
+      "defectCode": "D05",
+      "fromOpId": "OP30",
+      "sourceInspectionId": "INS-98",
+      "materialLossCost": 95,
+      "processingCost": 60,
+      "scrappedAt": "2026-11-01T00:22:00+08:00"
+    },
+    {
+      "id": "SC-6",
+      "batchId": "B-1101-A-06",
+      "serialId": "B-1101-A-06-U02",
+      "defectCode": "D07",
+      "fromOpId": "OP50",
+      "sourceInspectionId": "INS-128",
+      "materialLossCost": 240,
+      "processingCost": 113,
+      "scrappedAt": "2026-11-01T06:52:00+08:00"
+    },
+    {
+      "id": "SC-7",
+      "batchId": "B-1102-A-07",
+      "serialId": "B-1102-A-07-U02",
+      "defectCode": "D06",
+      "fromOpId": "OP40",
+      "sourceInspectionId": "INS-158",
+      "materialLossCost": 240,
+      "processingCost": 101,
+      "scrappedAt": "2026-11-02T23:36:00+08:00"
+    }
+  ]
+};
